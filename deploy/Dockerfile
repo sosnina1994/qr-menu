@@ -1,7 +1,5 @@
-FROM ubuntu
+FROM openjdk:17-alpine
 
-RUN apt-get -y update && apt-get -y install nginx
+COPY */quickstart/build/libs/*.jar app.jar
 
-COPY default /etc/nginx/sites-available/default
-
-CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+ENTRYPOINT [ "sh", "-c", "java -jar /app.jar"]
