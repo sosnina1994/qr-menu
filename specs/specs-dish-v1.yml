@@ -321,7 +321,7 @@ components:
       enum:
         - appetizer
         - main
-        - desert
+        - dessert
 
     DishRequestDebug:
       type: object
