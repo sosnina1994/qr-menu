@@ -96,10 +96,62 @@ paths:
               schema:
                 $ref: '#/components/schemas/DishDeleteResponse'
 
+  /dish/search:
+    post:
+      tags:
+        - dish
+      summary: Search dish
+      operationId: dishSearch
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DishSearchRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DishSearchResponse'
 components:
   schemas:
-    #delete
+    #search
+    DishSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/DishRequestDebug'
+        - type: object
+          properties:
+            dishFilter:
+              $ref: '#/components/schemas/DishSearchFilter'
 
+    DishSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка, которая будет искаться в меню
+
+    DishSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/DishResponseMulti'
+
+    DishResponseMulti:
+      allOf:
+        - type: object
+          description: Список найденных объектов
+          properties:
+            dishes:
+              type: array
+              items:
+                $ref: '#/components/schemas/DishResponseObject'
+
+    #delete
     DishDeleteRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
@@ -324,7 +376,7 @@ components:
           read: '#/components/schemas/DishReadRequest'
           update: '#/components/schemas/DishUpdateRequest'
           delete: '#/components/schemas/DishDeleteRequest'
-          #search: '#/components/schemas/DishSearchRequest'
+          search: '#/components/schemas/DishSearchRequest'
 
     IResponse:
       type: object
@@ -351,7 +403,7 @@ components:
           read: '#/components/schemas/DishReadResponse'
           update: '#/components/schemas/DishUpdateResponse'
           delete: '#/components/schemas/DishDeleteResponse'
-          #search: '#/components/schemas/DishSearchResponse'
+          search: '#/components/schemas/DishSearchResponse'
 
     EResponseResult:
       type: string
