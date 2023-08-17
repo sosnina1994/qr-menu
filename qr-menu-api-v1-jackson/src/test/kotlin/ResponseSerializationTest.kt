@@ -10,7 +10,7 @@ class ResponseSerializationTest {
             name = "dish name",
             description = "dish description",
             cost = 10.00,
-            dishType = EDishType.DESERT,
+            dishType = EDishType.DESSERT,
             visibility = EDishVisibility.PUBLIC,
         )
     )

@@ -14,4 +14,4 @@ pluginManagement {
 }
 
 include("quickstart")
-include("openapi-v1-jackson")
+include("qr-menu-api-v1-jackson")
