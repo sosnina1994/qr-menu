@@ -3,6 +3,9 @@ plugins {
     id("org.openapi.generator")
 }
 
+group = rootProject.group
+version = rootProject.version
+
 dependencies {
     val jacksonVersion: String by project
     implementation(kotlin("stdlib"))
