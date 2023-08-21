@@ -17,4 +17,4 @@ pluginManagement {
 include("quickstart")
 include("qr-menu-api-v1-jackson")
 include("qr-menu-common")
-include("qr-menu-mappers-v1")
+include("qr-menu-mappers")
