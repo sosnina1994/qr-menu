@@ -1,0 +1,424 @@
+openapi: 3.0.3
+info:
+  title: "QR_MENU version 1.0.0"
+  description: Digital menu
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: dish
+    description: Блюда меню
+paths:
+  /dish/create:
+    post:
+      tags:
+        - dish
+      summary: Create dish
+      operationId: dishCreate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DishCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DishCreateResponse'
+
+  /dish/read:
+    post:
+      tags:
+        - dish
+      summary: Read dish
+      operationId: dishRead
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DishReadRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DishReadResponse'
+
+  /dish/update:
+    post:
+      tags:
+        - dish
+      summary: Update dish
+      operationId: dishUpdate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DishUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DishUpdateResponse'
+
+  /dish/delete:
+    post:
+      tags:
+        - dish
+      summary: Delete dish
+      operationId: dishDelete
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DishDeleteRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DishDeleteResponse'
+
+  /dish/search:
+    post:
+      tags:
+        - dish
+      summary: Search dish
+      operationId: dishSearch
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DishSearchRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DishSearchResponse'
+components:
+  schemas:
+    #search
+    DishSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/DishRequestDebug'
+        - type: object
+          properties:
+            dishFilter:
+              $ref: '#/components/schemas/DishSearchFilter'
+
+    DishSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка, которая будет искаться в меню
+
+    DishSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/DishResponseMulti'
+
+    DishResponseMulti:
+      allOf:
+        - type: object
+          description: Список найденных объектов
+          properties:
+            dishes:
+              type: array
+              items:
+                $ref: '#/components/schemas/DishResponseObject'
+
+    #delete
+    DishDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/DishRequestDebug'
+        - type: object
+          properties:
+            dish:
+              $ref: '#/components/schemas/DishDeleteObject'
+
+    DishDeleteObject:
+      allOf:
+        - type: object
+          properties:
+            dish:
+              $ref: '#/components/schemas/DishId'
+            lock:
+              $ref: '#/components/schemas/DishLock'
+
+    DishDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/DishResponseSingle'
+
+    #update
+    DishUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/DishRequestDebug'
+        - type: object
+          properties:
+            dish:
+              $ref: '#/components/schemas/DishUpdateObject'
+
+    DishUpdateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseDish'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/DishId'
+            lock:
+              $ref: '#/components/schemas/DishLock'
+
+    DishUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/DishResponseSingle'
+
+    #read
+    DishReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/DishRequestDebug'
+        - type: object
+          properties:
+            dish:
+              $ref: '#/components/schemas/DishReadObject'
+
+    DishReadObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/DishId'
+
+    DishReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/DishResponseSingle'
+
+    #create
+    DishCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/DishRequestDebug'
+        - type: object
+          properties:
+            dish:
+              $ref: '#/components/schemas/DishCreateObject'
+    DishCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/DishResponseSingle'
+
+
+    DishResponseSingle:
+      allOf:
+        - type: object
+          description: Ответ с одним объектом
+          properties:
+            dish:
+              $ref: '#/components/schemas/DishResponseObject'
+
+    DishResponseObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseDish'
+        - type: object
+          description: Объект, который возвращается в ответе бэкенда
+          properties:
+            id:
+              $ref: '#/components/schemas/DishId'
+            ownerId:
+              $ref: '#/components/schemas/UserId'
+            lock:
+              $ref: '#/components/schemas/DishId'
+            permissions:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/DishPermissions'
+
+    DishId:
+      type: string
+      description: Идентификатор блюда
+
+    UserId:
+      type: string
+      description: Идентификатор пользователя
+
+    DishLock:
+      type: string
+      description: Версия оптимистичной блокировки
+
+    DishPermissions:
+      type: string
+      description: Доступы для операций над позицией меню
+      enum:
+        - read
+        - update
+        - delete
+        - makeVisiblePublic
+        - makeVisibleOwn
+
+    DishCreateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseDish'
+
+    BaseDish:
+      type: object
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        name:
+          type: string
+          description: Наименование блюда
+        description:
+          type: string
+          description: Описание блюда
+        cost:
+          type: number
+          format: double
+          description: Стоимость
+        dishType:
+          $ref: '#/components/schemas/EDishType'
+        visibility:
+          $ref: '#/components/schemas/EDishVisibility'
+
+    EDishVisibility:
+      type: string
+      description: 'Тип видимости. Возможные значения: видит только ресторан, видимо всем'
+      enum:
+        - ownerOnly
+        - public
+
+    EDishType:
+      type: string
+      description: Тип блюда
+      enum:
+        - appetizer
+        - main
+        - dessert
+
+    DishRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/DishDebug'
+
+    DishDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/EDishRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/EDishRequestDebugStubs'
+
+    EDishRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    EDishRequestDebugStubs:
+      type: string
+      description: Перечисления всех стабов
+      enum:
+        - success
+        - notFound
+        - badId
+        - badName
+        - badDescription
+        - badVisibility
+        - cannotDelete
+        - badSearchString
+
+
+    IRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/DishCreateRequest'
+          read: '#/components/schemas/DishReadRequest'
+          update: '#/components/schemas/DishUpdateRequest'
+          delete: '#/components/schemas/DishDeleteRequest'
+          search: '#/components/schemas/DishSearchRequest'
+
+    IResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+        result:
+          $ref: '#/components/schemas/EResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/DishCreateResponse'
+          read: '#/components/schemas/DishReadResponse'
+          update: '#/components/schemas/DishUpdateResponse'
+          delete: '#/components/schemas/DishDeleteResponse'
+          search: '#/components/schemas/DishSearchResponse'
+
+    EResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
