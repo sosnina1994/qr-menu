@@ -57,7 +57,7 @@ class MapperTest {
 
         assertEquals("1234", req.requestId)
         assertEquals("name", req.dish?.name)
-        assertEquals("desc", req.dish?.name)
+        assertEquals("desc", req.dish?.description)
         assertEquals(EDishType.MAIN, req.dish?.dishType)
         assertEquals(EDishVisibility.PUBLIC, req.dish?.visibility)
         assertEquals(1, req.errors?.size)
