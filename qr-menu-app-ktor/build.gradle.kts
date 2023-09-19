@@ -25,7 +25,7 @@ application {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
     implementation(ktor("core")) // "io.ktor:ktor-server-core:$ktorVersion"
     implementation(ktor("netty")) // "io.ktor:ktor-ktor-server-netty:$ktorVersion"
 
@@ -43,6 +43,14 @@ dependencies {
     // models
     implementation(project(":qr-menu-api-v1-jackson"))
     implementation(project(":qr-menu-mappers"))
+    implementation(project(":qr-menu-common"))
+    implementation(project(":qr-menu-stubs"))
+
+
+    implementation("io.ktor:ktor-server-cors-jvm:2.2.4")
+    implementation("io.ktor:ktor-server-call-logging-jvm:2.2.4")
+    implementation("io.ktor:ktor-server-partial-content-jvm:2.2.4")
+    implementation("io.ktor:ktor-server-conditional-headers-jvm:2.2.4")
 
 }
 
