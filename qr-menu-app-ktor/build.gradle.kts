@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.util.suffixIfNot
 
 val ktorVersion: String by project
 val serializationVersion: String by project
+val logbackVersion: String by project
 
 fun ktor(module: String, prefix: String = "server-", version: String? = this@Build_gradle.ktorVersion): Any =
     "io.ktor:ktor-${prefix.suffixIfNot("-")}$module:$version"
@@ -17,10 +18,11 @@ repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
 }
 
-/*application {
-//    mainClass.set("io.ktor.server.netty.EngineMain")
-    mainClass.set("ru.drvshare.menu.ApplicationKt")
-}*/
+application {
+
+    mainClass.set("io.ktor.server.netty.EngineMain")
+    //mainClass.set("ru.drvshare.menu.ApplicationKt")
+}
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
@@ -32,8 +34,18 @@ dependencies {
     implementation(ktor("content-negotiation")) // io.ktor:ktor-server-content-negotiation
     implementation(ktor("kotlinx-json", "serialization")) // io.ktor:ktor-serialization-kotlinx-json
 
-    // transport models
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+
+    implementation(kotlin("test-junit"))
+    implementation(ktor("test-host")) // "io.ktor:ktor-server-test-host:$ktorVersion"
+    implementation(ktor("content-negotiation", prefix = "client-"))
+
+    // models
     implementation(project(":qr-menu-api-v1-jackson"))
     implementation(project(":qr-menu-mappers"))
 
+}
+
+tasks.withType<Copy> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
