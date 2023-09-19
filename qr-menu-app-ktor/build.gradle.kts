@@ -1,0 +1,39 @@
+import org.jetbrains.kotlin.util.suffixIfNot
+
+val ktorVersion: String by project
+val serializationVersion: String by project
+
+fun ktor(module: String, prefix: String = "server-", version: String? = this@Build_gradle.ktorVersion): Any =
+    "io.ktor:ktor-${prefix.suffixIfNot("-")}$module:$version"
+
+plugins {
+    id("application")
+    id("io.ktor.plugin")
+    kotlin("plugin.serialization")
+    kotlin("jvm")
+}
+
+repositories {
+    maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
+}
+
+/*application {
+//    mainClass.set("io.ktor.server.netty.EngineMain")
+    mainClass.set("ru.drvshare.menu.ApplicationKt")
+}*/
+
+dependencies {
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(ktor("core")) // "io.ktor:ktor-server-core:$ktorVersion"
+    implementation(ktor("netty")) // "io.ktor:ktor-ktor-server-netty:$ktorVersion"
+
+    // jackson
+    implementation(ktor("jackson", "serialization")) // io.ktor:ktor-serialization-jackson
+    implementation(ktor("content-negotiation")) // io.ktor:ktor-server-content-negotiation
+    implementation(ktor("kotlinx-json", "serialization")) // io.ktor:ktor-serialization-kotlinx-json
+
+    // transport models
+    implementation(project(":qr-menu-api-v1-jackson"))
+    implementation(project(":qr-menu-mappers"))
+
+}
