@@ -1,4 +1,4 @@
-package v1
+package ru.sosninanv.qrmenu.app.v1
 
 import QrMenuContext
 import fromTransport

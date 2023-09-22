@@ -1,4 +1,4 @@
-package v1
+package ru.sosninanv.qrmenu.app.v1
 
 import io.ktor.server.application.*
 import io.ktor.server.routing.*

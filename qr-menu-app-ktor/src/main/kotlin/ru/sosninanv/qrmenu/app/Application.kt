@@ -1,3 +1,6 @@
+package ru.sosninanv.qrmenu.app
+
+import apiV1Mapper
 import io.ktor.http.*
 import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
@@ -12,8 +15,8 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
-import org.slf4j.event.*
-import v1.v1Dish
+import org.slf4j.event.Level
+import ru.sosninanv.qrmenu.app.v1.v1Dish
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
