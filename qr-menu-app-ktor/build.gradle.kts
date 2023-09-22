@@ -21,7 +21,6 @@ repositories {
 application {
 
     mainClass.set("io.ktor.server.netty.EngineMain")
-    //mainClass.set("ru.drvshare.menu.ApplicationKt")
 }
 
 dependencies {
@@ -52,6 +51,19 @@ dependencies {
     implementation("io.ktor:ktor-server-partial-content-jvm:2.2.4")
     implementation("io.ktor:ktor-server-conditional-headers-jvm:2.2.4")
 
+}
+
+
+ktor {
+    docker {
+        localImageName.set(project.name + "-ktor")
+        imageTag.set(project.version.toString())
+        jreVersion.set(io.ktor.plugin.features.JreVersion.JRE_17)
+    }
+}
+
+jib {
+    container.mainClass = "io.ktor.server.cio.EngineMain"
 }
 
 tasks.withType<Copy> {
