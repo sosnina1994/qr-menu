@@ -1,6 +1,5 @@
-package ru.otus.otuskotlin.marketplace.app.rabbit.config
+package ru.sosninanv.qrmenu.app.rabbit.config
 
-// TODO-rmq-3: наш класс настроек взаимодействия с RMQ
 data class RabbitExchangeConfiguration(
     val keyIn: String,
     val keyOut: String,

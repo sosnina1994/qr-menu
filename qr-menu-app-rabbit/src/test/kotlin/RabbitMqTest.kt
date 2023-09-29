@@ -7,8 +7,8 @@ import kotlinx.coroutines.withTimeoutOrNull
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.testcontainers.containers.RabbitMQContainer
-import ru.otus.otuskotlin.marketplace.app.rabbit.config.RabbitConfig
-import ru.otus.otuskotlin.marketplace.app.rabbit.config.RabbitExchangeConfiguration
+import ru.sosninanv.qrmenu.app.rabbit.config.RabbitConfig
+import ru.sosninanv.qrmenu.app.rabbit.config.RabbitExchangeConfiguration
 import ru.sosninanv.api.v1.models.*
 import ru.sosninanv.qrmenu.app.rabbit.config.AppSettings
 import kotlin.test.AfterTest

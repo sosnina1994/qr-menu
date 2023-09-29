@@ -7,8 +7,8 @@ import com.rabbitmq.client.ConnectionFactory
 import com.rabbitmq.client.DeliverCallback
 import com.rabbitmq.client.Delivery
 import kotlinx.coroutines.*
-import ru.otus.otuskotlin.marketplace.app.rabbit.config.RabbitConfig
-import ru.otus.otuskotlin.marketplace.app.rabbit.config.RabbitExchangeConfiguration
+import ru.sosninanv.qrmenu.app.rabbit.config.RabbitConfig
+import ru.sosninanv.qrmenu.app.rabbit.config.RabbitExchangeConfiguration
 import kotlin.coroutines.CoroutineContext
 
 /**

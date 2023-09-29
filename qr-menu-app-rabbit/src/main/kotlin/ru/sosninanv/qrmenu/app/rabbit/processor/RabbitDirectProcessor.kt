@@ -9,8 +9,8 @@ import helpers.addError
 import helpers.asQrMenuError
 import kotlinx.datetime.Clock
 import models.EQrMenuState
-import ru.otus.otuskotlin.marketplace.app.rabbit.config.RabbitConfig
-import ru.otus.otuskotlin.marketplace.app.rabbit.config.RabbitExchangeConfiguration
+import ru.sosninanv.qrmenu.app.rabbit.config.RabbitConfig
+import ru.sosninanv.qrmenu.app.rabbit.config.RabbitExchangeConfiguration
 import ru.sosninanv.api.v1.models.IRequest
 import ru.sosninanv.qrmenu.app.rabbit.RabbitProcessorBase
 import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor

@@ -1,7 +1,5 @@
 package ru.sosninanv.qrmenu.app.rabbit.config
 
-import ru.otus.otuskotlin.marketplace.app.rabbit.config.RabbitConfig
-import ru.otus.otuskotlin.marketplace.app.rabbit.config.RabbitExchangeConfiguration
 import ru.sosninanv.qrmenu.app.rabbit.controller.RabbitController
 import ru.sosninanv.qrmenu.app.rabbit.processor.RabbitDirectProcessor
 import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor

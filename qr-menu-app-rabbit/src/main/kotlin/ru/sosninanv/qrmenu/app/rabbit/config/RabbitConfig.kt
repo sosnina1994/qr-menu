@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.marketplace.app.rabbit.config
+package ru.sosninanv.qrmenu.app.rabbit.config
 
 data class RabbitConfig(
     val host: String = HOST,
