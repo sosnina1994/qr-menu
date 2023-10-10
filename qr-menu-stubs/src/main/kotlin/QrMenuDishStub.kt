@@ -1,25 +1,12 @@
+import QrMenuDishStubObj.DISH
 import models.*
 
 object QrMenuDishStub {
 
     fun prepareResult(block: QrMenuDish.() -> Unit): QrMenuDish = get().apply(block)
 
-    fun get() = QrMenuDish(
-        id = QrMenuDishId("1"),
-        name = "Dish1",
-        description = "Author",
-        cost = 100.0,
-        type = EQrMenuDishType.DESSERT,
-        ownerId = QrMenuUserId("user-1"),
-        visibility = EQrMenuVisibility.PUBLIC,
-        permissions = mutableSetOf(
-            EQrMenuPermissionClient.READ,
-            EQrMenuPermissionClient.UPDATE,
-            EQrMenuPermissionClient.DELETE,
-            EQrMenuPermissionClient.MAKE_VISIBLE_PUBLIC,
-            EQrMenuPermissionClient.MAKE_VISIBLE_OWNER,
-        )
-    )
+    fun get(): QrMenuDish = DISH.copy()
+
 
     fun prepareSearchList(filter: String, type: EQrMenuDishType) = listOf(
         dishDemand("1", filter, type),
