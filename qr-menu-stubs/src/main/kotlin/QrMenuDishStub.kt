@@ -2,6 +2,8 @@ import models.*
 
 object QrMenuDishStub {
 
+    fun prepareResult(block: QrMenuDish.() -> Unit): QrMenuDish = get().apply(block)
+
     fun get() = QrMenuDish(
         id = QrMenuDishId("1"),
         name = "Dish1",
