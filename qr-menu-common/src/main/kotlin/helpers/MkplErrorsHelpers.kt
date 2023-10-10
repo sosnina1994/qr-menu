@@ -1,6 +1,7 @@
 package helpers
 
 import QrMenuContext
+import models.EQrMenuState
 import models.QrMenuError
 
 fun Throwable.asQrMenuError(
@@ -16,3 +17,8 @@ fun Throwable.asQrMenuError(
 )
 
 fun QrMenuContext.addError(vararg error: QrMenuError) = errors.addAll(error)
+
+fun QrMenuContext.fail(error: QrMenuError) {
+    addError(error)
+    state = EQrMenuState.FAILING
+}

@@ -9,5 +9,5 @@ enum class EQrMenuStubs {
     BAD_DESCRIPTION,
     BAD_VISIBILITY,
     CANNOT_DELETE,
-    BAD_SEARCH_STRING
+    DB_ERROR
 }
