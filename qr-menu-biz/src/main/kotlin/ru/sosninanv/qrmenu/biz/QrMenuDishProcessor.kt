@@ -53,7 +53,7 @@ class QrMenuDishProcessor {
                 }
 
                 validation {
-                    worker("Копируем поля в adValidating") { dishValidating = dishRequest.deepCopy() }
+                    worker("Копируем поля в dishValidating") { dishValidating = dishRequest.deepCopy() }
                     worker("Очистка id") { dishValidating.id = QrMenuDishId(dishValidating.id.asString().trim()) }
                     validateIdNotEmpty("Проверка на непустой id")
                     validateIdProperFormat("Проверка формата id")
@@ -69,6 +69,20 @@ class QrMenuDishProcessor {
                     stubDbError("Имитация ошибки обращения к базе данных")
                     stubNoCase("Имитация ошибки: запрошенный стаб недопустим")
                 }
+
+                worker("Копируем поля в dishValidating") { dishValidating = dishRequest.deepCopy() }
+                worker("Очистка id") { dishValidating.id = QrMenuDishId(dishValidating.id.asString().trim()) }
+                worker("Очистка имени") { dishValidating.name = dishValidating.name.trim() }
+                worker("Очистка описания") { dishValidating.description = dishValidating.description.trim() }
+
+                validateIdNotEmpty("Проверка на непустой id")
+                validateIdProperFormat("Проверка формата id")
+                validateNameNotEmpty("Проверка на непустое имя")
+                validateNameHasContent("Проверка символов")
+                validateDescriptionNotEmpty("Проверка на непустое описание")
+                validateDescriptionHasContent("ППроверка символов")
+
+                finishAdValidation("Успешное завершение процедуры валидации")
             }
 
             operation("Удаление блюда", EQrMenuCommand.DELETE) {
