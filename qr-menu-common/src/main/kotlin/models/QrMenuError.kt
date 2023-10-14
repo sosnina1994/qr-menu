@@ -7,9 +7,11 @@ data class QrMenuError(
     val message: String = "",
     val exception: Throwable? = null,
     val level: Level = Level.ERROR,
-)
-
-enum class Level {
-    TRACE, DEBUG, INFO, WARN, ERROR
+) {
+    enum class Level {
+        TRACE, DEBUG, INFO, WARN, ERROR
+    }
 }
+
+
 

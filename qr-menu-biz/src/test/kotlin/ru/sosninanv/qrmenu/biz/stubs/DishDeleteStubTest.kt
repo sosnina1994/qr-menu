@@ -1,41 +1,28 @@
-package ru.sosninanv.qrmenu.biz
+package ru.sosninanv.qrmenu.biz.stubs
 
 import QrMenuContext
 import QrMenuDishStub
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import models.*
+import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor
 import stubs.EQrMenuStubs
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DishUpdateStubTest {
+class DishDeleteStubTest {
 
     private val processor = QrMenuDishProcessor()
-
-    val id = QrMenuDishId("1")
-    val name = "Dish1"
-    val description = "Author"
-    val cost = 100.0
-    val type = EQrMenuDishType.DESSERT
-    val ownerId = QrMenuUserId("user-1")
-    val visibility = EQrMenuVisibility.PUBLIC
+    private val id = QrMenuDishId("1")
 
     @Test
-    fun update() = runTest {
+    fun delete() = runTest {
         val ctx = QrMenuContext(
-            command = EQrMenuCommand.UPDATE,
+            command = EQrMenuCommand.DELETE,
             state = EQrMenuState.NONE,
             workMode = EQrMenuWorkMode.STUB,
             stubCase = EQrMenuStubs.SUCCESS,
             dishRequest = QrMenuDish(
-                id = id,
-                name = name,
-                description = description,
-                cost = cost,
-                type = type,
-                ownerId = ownerId,
-                visibility = visibility
+                id = id
             )
         )
         processor.exec(ctx)
@@ -51,7 +38,7 @@ class DishUpdateStubTest {
     @Test
     fun badId() = runTest {
         val ctx = QrMenuContext(
-            command = EQrMenuCommand.UPDATE,
+            command = EQrMenuCommand.DELETE,
             state = EQrMenuState.NONE,
             workMode = EQrMenuWorkMode.STUB,
             stubCase = EQrMenuStubs.BAD_ID,
@@ -66,7 +53,7 @@ class DishUpdateStubTest {
     @Test
     fun databaseError() = runTest {
         val ctx = QrMenuContext(
-            command = EQrMenuCommand.UPDATE,
+            command = EQrMenuCommand.DELETE,
             state = EQrMenuState.NONE,
             workMode = EQrMenuWorkMode.STUB,
             stubCase = EQrMenuStubs.DB_ERROR,
@@ -82,7 +69,7 @@ class DishUpdateStubTest {
     @Test
     fun badNoCase() = runTest {
         val ctx = QrMenuContext(
-            command = EQrMenuCommand.UPDATE,
+            command = EQrMenuCommand.DELETE,
             state = EQrMenuState.NONE,
             workMode = EQrMenuWorkMode.STUB,
             stubCase = EQrMenuStubs.BAD_ID,

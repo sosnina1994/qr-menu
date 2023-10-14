@@ -1,10 +1,10 @@
-package ru.sosninanv.qrmenu.biz
+package ru.sosninanv.qrmenu.biz.stubs
 
 import QrMenuContext
 import QrMenuDishStub
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import models.*
+import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor
 import stubs.EQrMenuStubs
 import kotlin.test.Test
 import kotlin.test.assertEquals

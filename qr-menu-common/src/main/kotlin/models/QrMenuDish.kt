@@ -9,4 +9,8 @@ data class QrMenuDish(
     var ownerId: QrMenuUserId = QrMenuUserId.NONE,
     var visibility: EQrMenuVisibility = EQrMenuVisibility.NONE,
     val permissions: MutableSet<EQrMenuPermissionClient> = mutableSetOf()
-)
+) {
+    fun deepCopy(): QrMenuDish = copy(
+        permissions = permissions.toMutableSet()
+    )
+}

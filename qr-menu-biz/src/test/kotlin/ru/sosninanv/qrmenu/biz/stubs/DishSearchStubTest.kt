@@ -1,48 +1,49 @@
-package ru.sosninanv.qrmenu.biz
+package ru.sosninanv.qrmenu.biz.stubs
 
 import QrMenuContext
 import QrMenuDishStub
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import models.*
+import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor
 import stubs.EQrMenuStubs
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import kotlin.test.fail
 
-class DishDeleteStubTest {
+class DishSearchStubTest {
 
     private val processor = QrMenuDishProcessor()
-    private val id = QrMenuDishId("1")
+    val filter = QrMenuDishFilter(searchString = "Dish1")
 
     @Test
-    fun delete() = runTest {
+    fun search() = runTest {
         val ctx = QrMenuContext(
-            command = EQrMenuCommand.DELETE,
+            command = EQrMenuCommand.SEARCH,
             state = EQrMenuState.NONE,
             workMode = EQrMenuWorkMode.STUB,
             stubCase = EQrMenuStubs.SUCCESS,
-            dishRequest = QrMenuDish(
-                id = id
-            )
+            dishFilterRequest = filter
         )
         processor.exec(ctx)
+        assertTrue(ctx.dishesResponse.size > 1)
+        val first = ctx.dishesResponse.firstOrNull() ?: fail("Empty response list")
+        assertTrue(first.name.contains(filter.searchString))
+        assertTrue(first.description.contains(filter.searchString))
         with (QrMenuDishStub.get()) {
-            assertEquals(id, ctx.dishResponse.id)
-            assertEquals(name, ctx.dishResponse.name)
-            assertEquals(description, ctx.dishResponse.description)
-            assertEquals(type, ctx.dishResponse.type)
-            assertEquals(visibility, ctx.dishResponse.visibility)
+            assertEquals(type, first.type)
+            assertEquals(visibility, first.visibility)
         }
     }
 
     @Test
     fun badId() = runTest {
         val ctx = QrMenuContext(
-            command = EQrMenuCommand.DELETE,
+            command = EQrMenuCommand.SEARCH,
             state = EQrMenuState.NONE,
             workMode = EQrMenuWorkMode.STUB,
             stubCase = EQrMenuStubs.BAD_ID,
-            dishRequest = QrMenuDish()
+            dishFilterRequest = filter
         )
         processor.exec(ctx)
         assertEquals(QrMenuDish(), ctx.dishResponse)
@@ -53,13 +54,11 @@ class DishDeleteStubTest {
     @Test
     fun databaseError() = runTest {
         val ctx = QrMenuContext(
-            command = EQrMenuCommand.DELETE,
+            command = EQrMenuCommand.SEARCH,
             state = EQrMenuState.NONE,
             workMode = EQrMenuWorkMode.STUB,
             stubCase = EQrMenuStubs.DB_ERROR,
-            dishRequest = QrMenuDish(
-                id = id
-            )
+            dishFilterRequest = filter
         )
         processor.exec(ctx)
         assertEquals(QrMenuDish(), ctx.dishResponse)
@@ -69,17 +68,14 @@ class DishDeleteStubTest {
     @Test
     fun badNoCase() = runTest {
         val ctx = QrMenuContext(
-            command = EQrMenuCommand.DELETE,
+            command = EQrMenuCommand.SEARCH,
             state = EQrMenuState.NONE,
             workMode = EQrMenuWorkMode.STUB,
-            stubCase = EQrMenuStubs.BAD_ID,
-            dishRequest = QrMenuDish(
-                id = id
-            )
+            stubCase = EQrMenuStubs.BAD_NAME,
+            dishFilterRequest = filter
         )
         processor.exec(ctx)
         assertEquals(QrMenuDish(), ctx.dishResponse)
-        assertEquals("id", ctx.errors.firstOrNull()?.field)
-        assertEquals("validation", ctx.errors.firstOrNull()?.group)
+        assertEquals("stub", ctx.errors.firstOrNull()?.field)
     }
 }

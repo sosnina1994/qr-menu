@@ -3,9 +3,12 @@ package ru.sosninanv.qrmenu.biz
 import QrMenuContext
 import QrMenuCorSettings
 import models.EQrMenuCommand
+import models.QrMenuDishId
 import ru.sosninanv.qrmenu.biz.groups.operation
 import ru.sosninanv.qrmenu.biz.groups.stubs
+import ru.sosninanv.qrmenu.biz.validation.*
 import ru.sosninanv.qrmenu.biz.workers.*
+import ru.sosninanv.qrmenu.cor.handlers.worker
 import ru.sosninanv.qrmenu.cor.rootChain
 
 class QrMenuDishProcessor {
@@ -26,6 +29,19 @@ class QrMenuDishProcessor {
                     stubDbError("Имитация ошибки обращения к базе данных")
                     stubNoCase("Имитация ошибки: запрошенный стаб недопустим")
                 }
+
+                validation {
+                    worker("Копируем поля в dishValidating") { dishValidating = dishRequest.deepCopy() }
+                    worker("Очистка id") { dishValidating.id = QrMenuDishId.NONE }
+                    worker("Очистка имени") { dishValidating.name = dishValidating.name.trim() }
+
+                    validateNameNotEmpty("Проверка, что имя не пустое")
+                    validateNameHasContent("Проверка символов")
+                    validateDescriptionNotEmpty("Проверка, что описание не пусто")
+                    validateDescriptionHasContent("Проверка символов")
+                    finishAdValidation("Завершение проверок")
+
+                }
             }
 
             operation("Получение блюда", EQrMenuCommand.READ) {
@@ -34,6 +50,15 @@ class QrMenuDishProcessor {
                     stubValidationBadId("Имитация ошибки валидации id")
                     stubDbError("Имитация ошибки обращения к базе данных")
                     stubNoCase("Имитация ошибки: запрошенный стаб недопустим")
+                }
+
+                validation {
+                    worker("Копируем поля в adValidating") { dishValidating = dishRequest.deepCopy() }
+                    worker("Очистка id") { dishValidating.id = QrMenuDishId(dishValidating.id.asString().trim()) }
+                    validateIdNotEmpty("Проверка на непустой id")
+                    validateIdProperFormat("Проверка формата id")
+
+                    finishAdValidation("Успешное завершение процедуры валидации")
                 }
             }
 
