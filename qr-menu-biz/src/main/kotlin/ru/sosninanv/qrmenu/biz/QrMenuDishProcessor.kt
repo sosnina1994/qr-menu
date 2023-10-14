@@ -110,6 +110,12 @@ class QrMenuDishProcessor {
                     stubDbError("Имитация ошибки обращения к базе данных")
                     stubNoCase("Имитация ошибки: запрошенный стаб недопустим")
                 }
+
+                validation {
+                    worker("Копируем поля в adFilterValidating") { dishFilterValidating = dishFilterRequest.copy() }
+
+                    finishAdFilterValidation("Успешное завершение процедуры валидации")
+                }
             }
 
         }.build()

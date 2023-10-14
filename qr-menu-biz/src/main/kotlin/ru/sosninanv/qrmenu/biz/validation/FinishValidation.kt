@@ -13,10 +13,10 @@ fun ICorAddExecDsl<QrMenuContext>.finishAdValidation(title: String) = worker {
     }
 }
 
-/*fun ICorChainDsl<MkplContext>.finishAdFilterValidation(title: String) = worker {
+fun ICorAddExecDsl<QrMenuContext>.finishAdFilterValidation(title: String) = worker {
     this.title = title
-    on { state == MkplState.RUNNING }
+    on { state == EQrMenuState.RUNNING }
     handle {
-        adFilterValidated = adFilterValidating
+        dishFilterValidated = dishFilterValidating
     }
-}*/
+}
