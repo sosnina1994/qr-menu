@@ -92,6 +92,15 @@ class QrMenuDishProcessor {
                     stubDbError("Имитация ошибки обращения к базе данных")
                     stubNoCase("Имитация ошибки: запрошенный стаб недопустим")
                 }
+
+                validation {
+                    worker("Копируем поля в dishValidating") { dishValidating = dishRequest.deepCopy() }
+                    worker("Очистка id") { dishValidating.id = QrMenuDishId(dishValidating.id.asString().trim()) }
+
+                    validateIdNotEmpty("Проверка на непустой id")
+                    validateIdProperFormat("Проверка формата id")
+                    finishAdValidation("Успешное завершение процедуры валидации")
+                }
             }
 
             operation("Поиск блюда", EQrMenuCommand.SEARCH) {
