@@ -18,5 +18,11 @@ data class QrMenuContext(
     var dishResponse: QrMenuDish = QrMenuDish(),
     var dishesResponse: MutableList<QrMenuDish> = mutableListOf(),
 
+    /** Валидируемые */
+    var dishValidating: QrMenuDish = QrMenuDish(),
+    var dishFilterValidating: QrMenuDishFilter = QrMenuDishFilter(),
 
-    )
+    /** Готовый результат валидации */
+    var dishValidated: QrMenuDish = QrMenuDish(),
+    var dishFilterValidated: QrMenuDishFilter = QrMenuDishFilter()
+)

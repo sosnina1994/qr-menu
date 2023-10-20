@@ -11,4 +11,5 @@ dependencies {
     implementation(kotlin("test-common"))
     implementation(kotlin("test-annotations-common"))
     api("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
+    api(project(":qr-menu-logging"))
 }

@@ -4,6 +4,10 @@ import com.rabbitmq.client.DeliverCallback
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeoutOrNull
+import models.EQrMenuDishType
+import models.EQrMenuPermissionClient
+import models.EQrMenuVisibility
+import models.QrMenuUserId
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.testcontainers.containers.RabbitMQContainer
@@ -122,11 +126,11 @@ internal class RabbitMqTest {
                 stub = EDishRequestDebugStubs.SUCCESS,
             ),
             dish = DishCreateObject(
-                name = "name",
-                description = "desc",
-                cost = 500.5,
-                dishType = EDishType.MAIN,
-                visibility = EDishVisibility.PUBLIC,
+                name = "Dish1",
+                description = "Author",
+                cost = 100.0,
+                dishType = EDishType.DESSERT,
+                visibility = EDishVisibility.PUBLIC
             )
         )
     }
