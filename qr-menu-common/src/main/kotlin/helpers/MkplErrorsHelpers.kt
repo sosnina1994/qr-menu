@@ -1,7 +1,9 @@
 package helpers
 
 import QrMenuContext
+import exceptions.RepoConcurrencyException
 import models.EQrMenuState
+import models.QrMenuDishLock
 import models.QrMenuError
 
 fun Throwable.asQrMenuError(
@@ -38,4 +40,27 @@ fun errorValidation(
     group = "validation",
     message = "Validation error for field $field: $description",
     level = level
+)
+
+fun errorRepoConcurrency(
+    expectedLock: QrMenuDishLock,
+    actualLock: QrMenuDishLock?,
+    exception: Exception? = null,
+) = QrMenuError(
+    field = "lock",
+    code = "concurrency",
+    group = "repo",
+    message = "The object has been changed concurrently by another user or process",
+    exception = exception ?: RepoConcurrencyException(expectedLock, actualLock),
+)
+
+val errorNotFound = QrMenuError(
+    field = "id",
+    message = "Not Found",
+    code = "not-found"
+)
+
+val errorEmptyId = QrMenuError(
+    field = "id",
+    message = "Id must not be null or blank"
 )
