@@ -78,14 +78,18 @@ class DishRepoInMemory(
             } ?: resultErrorNotFound
     }
 
-    override suspend fun updateDish(rq: DbDishRequest): DbDishResponse {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateDish(rq: DbDishRequest): DbDishResponse =
+        doUpdateOrDelete(rq.dish.id, rq.dish.lock) { key, _ ->
+            val newAd = rq.dish.copy(lock = QrMenuDishLock(randomUuid()))
+            val entity = DishEntity(newAd)
+            cache.put(key, entity)
+            DbDishResponse.success(newAd)
+        }
 
     override suspend fun deleteDish(rq: DbDishIdRequest): DbDishResponse =
         doUpdateOrDelete(rq.id, rq.lock) { key, oldAd ->
             cache.invalidate(key)
-            return@doUpdateOrDelete DbDishResponse.success(oldAd.toInternal())
+            DbDishResponse.success(oldAd.toInternal())
         }
 
 
