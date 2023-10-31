@@ -1,10 +1,7 @@
 import com.benasher44.uuid.uuid4
 import io.github.reactivecircus.cache4k.Cache
 import kotlinx.coroutines.sync.Mutex
-import models.DishEntity
-import models.QrMenuDish
-import models.QrMenuDishId
-import models.QrMenuDishLock
+import models.*
 import repo.*
 import java.util.Collections.emptyList
 import kotlin.time.Duration
@@ -35,9 +32,9 @@ class DishRepoInMemory(
         cache.put(entity.id, entity)
     }
 
-    override suspend fun createDish(req: DbDishRequest): DbDishResponse {
+    override suspend fun createDish(rq: DbDishRequest): DbDishResponse {
         val key = randomUuid()
-        val dish = req.dish.copy(id = QrMenuDishId(key), lock = QrMenuDishLock(randomUuid()))
+        val dish = rq.dish.copy(id = QrMenuDishId(key), lock = QrMenuDishLock(randomUuid()))
         val entity = DishEntity(dish)
         cache.put(key, entity)
         return DbDishResponse(
@@ -47,7 +44,14 @@ class DishRepoInMemory(
     }
 
     override suspend fun readDish(rq: DbDishIdRequest): DbDishResponse {
-        TODO("Not yet implemented")
+        val key = rq.id.takeIf { it != QrMenuDishId.NONE }?.asString() ?: return resultErrorEmptyId
+        return cache.get(key)
+            ?.let {
+                DbDishResponse(
+                    data = it.toInternal(),
+                    isSuccess = true,
+                )
+            } ?: resultErrorNotFound
     }
 
     override suspend fun updateDish(rq: DbDishRequest): DbDishResponse {
@@ -60,6 +64,44 @@ class DishRepoInMemory(
 
     override suspend fun searchDish(rq: DbDishFilterRequest): DbDishesResponse {
         TODO("Not yet implemented")
+    }
+
+    companion object {
+        val resultErrorEmptyId = DbDishResponse(
+            data = null,
+            isSuccess = false,
+            errors = listOf(
+                QrMenuError(
+                    code = "id-empty",
+                    group = "validation",
+                    field = "id",
+                    message = "Id must not be null or blank"
+                )
+            )
+        )
+        val resultErrorEmptyLock = DbDishResponse(
+            data = null,
+            isSuccess = false,
+            errors = listOf(
+                QrMenuError(
+                    code = "lock-empty",
+                    group = "validation",
+                    field = "lock",
+                    message = "Lock must not be null or blank"
+                )
+            )
+        )
+        val resultErrorNotFound = DbDishResponse(
+            isSuccess = false,
+            data = null,
+            errors = listOf(
+                QrMenuError(
+                    code = "not-found",
+                    field = "id",
+                    message = "Not Found"
+                )
+            )
+        )
     }
 
 }
