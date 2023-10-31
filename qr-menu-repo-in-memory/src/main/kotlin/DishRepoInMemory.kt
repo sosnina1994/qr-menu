@@ -94,7 +94,24 @@ class DishRepoInMemory(
 
 
     override suspend fun searchDish(rq: DbDishFilterRequest): DbDishesResponse {
-        TODO("Not yet implemented")
+        val result = cache.asMap().asSequence()
+
+            .filter { entry ->
+                rq.ownerId.takeIf { it != QrMenuUserId.NONE }?.let {
+                    it.asString() == entry.value.ownerId
+                } ?: true
+            }
+            .filter { entry ->
+                rq.dishType.takeIf { it != EQrMenuDishType.NONE }?.let {
+                    it.name == entry.value.type
+                } ?: true
+            }
+            .map { it.value.toInternal() }
+            .toList()
+        return DbDishesResponse(
+            data = result,
+            isSuccess = true
+        )
     }
 
     companion object {

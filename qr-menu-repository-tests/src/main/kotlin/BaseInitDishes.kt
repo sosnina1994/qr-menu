@@ -7,7 +7,7 @@ abstract class BaseInitDishes(val op: String): IInitObjects<QrMenuDish> {
     fun createInitTestModel(
         suf: String,
         ownerId: QrMenuUserId = QrMenuUserId("owner-123"),
-        type: EQrMenuDishType = EQrMenuDishType.DESSERT,
+        type: EQrMenuDishType = EQrMenuDishType.MAIN,
         lock: QrMenuDishLock = lockOld,
     ) = QrMenuDish(
         id = QrMenuDishId("ad-repo-$op-$suf"),

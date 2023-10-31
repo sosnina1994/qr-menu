@@ -32,7 +32,7 @@ abstract class RepoDishReadTest {
         assertEquals("id", error?.field)
     }
 
-    companion object : BaseInitDishes("delete") {
+    companion object : BaseInitDishes("read") {
         override val initObjects: List<QrMenuDish> = listOf(
             createInitTestModel("read")
         )
