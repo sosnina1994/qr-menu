@@ -1,14 +1,22 @@
 import kotlinx.datetime.Instant
 import models.*
+import repo.IDishRepository
 import stubs.EQrMenuStubs
 
 data class QrMenuContext(
     var command: EQrMenuCommand = EQrMenuCommand.NONE,
     var state: EQrMenuState = EQrMenuState.NONE,
     val errors: MutableList<QrMenuError> = mutableListOf(),
+    val settings: QrMenuCorSettings = QrMenuCorSettings.NONE,
 
     var workMode: EQrMenuWorkMode = EQrMenuWorkMode.TEST,
     var stubCase: EQrMenuStubs = EQrMenuStubs.NONE,
+
+    var dishRepo: IDishRepository = IDishRepository.NONE,
+    var dishRepoRead: QrMenuDish = QrMenuDish(), // То, что прочитали из репозитория
+    var dishRepoPrepare: QrMenuDish = QrMenuDish(), // То, что готовим для сохранения в БД
+    var dishRepoDone: QrMenuDish = QrMenuDish(),  // Результат, полученный из БД
+    var dishesRepoDone: MutableList<QrMenuDish> = mutableListOf(),
 
     var requestId: QrMenuRequestId = QrMenuRequestId.NONE,
     var timeStart: Instant = Instant.NONE,

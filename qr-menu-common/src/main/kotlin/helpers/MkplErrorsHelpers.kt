@@ -64,3 +64,22 @@ val errorEmptyId = QrMenuError(
     field = "id",
     message = "Id must not be null or blank"
 )
+
+fun errorAdministration(
+    /**
+     * Код, характеризующий ошибку. Не должен включать имя поля или указание на валидацию.
+     * Например: empty, badSymbols, tooLong, etc
+     */
+    field: String = "",
+    violationCode: String,
+    description: String,
+    exception: Exception? = null,
+    level: QrMenuError.Level = QrMenuError.Level.ERROR,
+) = QrMenuError(
+    field = field,
+    code = "administration-$violationCode",
+    group = "administration",
+    message = "Microservice management error: $description",
+    level = level,
+    exception = exception,
+)
