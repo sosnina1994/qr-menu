@@ -6,19 +6,17 @@ import repo.DbDishIdRequest
 import ru.sosninanv.qrmenu.cor.ICorAddExecDsl
 import ru.sosninanv.qrmenu.cor.handlers.worker
 
-fun ICorAddExecDsl<QrMenuContext>.repoRead(title: String) = worker {
+fun ICorAddExecDsl<QrMenuContext>.repoDelete(title: String) = worker {
     this.title = title
-    description = "Чтение объекта из БД"
+    description = "Удаление данных из БД по ID"
     on { state == EQrMenuState.RUNNING }
     handle {
-        val request = DbDishIdRequest(dishValidated)
-        val result = dishRepo.readDish(request)
-        val resultDish = result.data
-        if (result.isSuccess && resultDish != null) {
-            dishRepoRead = resultDish
-        } else {
+        val request = DbDishIdRequest(dishRepoPrepare)
+        val result = dishRepo.deleteDish(request)
+        if (!result.isSuccess) {
             state = EQrMenuState.FAILING
             errors.addAll(result.errors)
         }
+        dishRepoDone = dishRepoRead
     }
 }

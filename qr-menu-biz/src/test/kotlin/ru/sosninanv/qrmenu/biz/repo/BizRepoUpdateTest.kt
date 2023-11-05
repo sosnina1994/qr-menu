@@ -16,7 +16,7 @@ class BizRepoUpdateTest {
 
     private val userId = QrMenuUserId("321")
     private val command = EQrMenuCommand.UPDATE
-    private val initAd = QrMenuDish(
+    private val initDish = QrMenuDish(
         id = QrMenuDishId("123"),
         name = "abc",
         description = "abc",
@@ -26,7 +26,7 @@ class BizRepoUpdateTest {
     )
 
     private val repo by lazy {DishRepositoryMock(
-        invokeReadDish = { DbDishResponse(isSuccess = true, data = initAd,) },
+        invokeReadDish = { DbDishResponse(isSuccess = true, data = initDish,) },
         invokeUpdateDish = {
             DbDishResponse(
                 isSuccess = true,

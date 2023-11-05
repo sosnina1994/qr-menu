@@ -95,31 +95,33 @@ class QrMenuDishProcessor(
                     stubNoCase("Имитация ошибки: запрошенный стаб недопустим")
                 }
 
-                worker("Копируем поля в dishValidating") { dishValidating = dishRequest.deepCopy() }
-                worker("Очистка id") { dishValidating.id = QrMenuDishId(dishValidating.id.asString().trim()) }
-                worker("Очистка имени") { dishValidating.name = dishValidating.name.trim() }
-                worker("Очистка описания") { dishValidating.description = dishValidating.description.trim() }
+                validation {
+                    worker("Копируем поля в dishValidating") { dishValidating = dishRequest.deepCopy() }
+                    worker("Очистка id") { dishValidating.id = QrMenuDishId(dishValidating.id.asString().trim()) }
+                    worker("Очистка имени") { dishValidating.name = dishValidating.name.trim() }
+                    worker("Очистка описания") { dishValidating.description = dishValidating.description.trim() }
 
-                validateIdNotEmpty("Проверка на непустой id")
-                validateIdProperFormat("Проверка формата id")
-                validateNameNotEmpty("Проверка на непустое имя")
-                validateNameHasContent("Проверка символов")
-                validateDescriptionNotEmpty("Проверка на непустое описание")
-                validateDescriptionHasContent("Проверка символов")
+                    validateIdNotEmpty("Проверка на непустой id")
+                    validateIdProperFormat("Проверка формата id")
+                    validateNameNotEmpty("Проверка на непустое имя")
+                    validateNameHasContent("Проверка символов")
+                    validateDescriptionNotEmpty("Проверка на непустое описание")
+                    validateDescriptionHasContent("Проверка символов")
 
-                finishAdValidation("Успешное завершение процедуры валидации")
+                    finishAdValidation("Успешное завершение процедуры валидации")
+                }
+                chain {
+                    title = "Логика сохранения"
+                    repoRead("Чтение данных из БД")
+                    repoPrepareUpdate("Подготовка объекта для обновления")
+                    repoUpdate("Обновление объекта в БД")
+                }
+                prepareResult("Подготовка ответа")
+
             }
 
-            chain {
-                title = "Логика сохранения"
-                repoRead("Чтение данных из БД")
-                repoPrepareUpdate("Подготовка объекта для обновления")
-                repoUpdate("Обновление объекта в БД")
-            }
-            prepareResult("Подготовка ответа")
-
-
-            operation("Удаление блюда", EQrMenuCommand.DELETE) {
+            /** DELETE */
+            operation("Удаление объека", EQrMenuCommand.DELETE) {
                 stubs("Обработка стабов") {
                     stubDeleteSuccess("Имитация успешной обработки")
                     stubValidationBadId("Имитация ошибки валидации id")
@@ -135,6 +137,13 @@ class QrMenuDishProcessor(
                     validateIdProperFormat("Проверка формата id")
                     finishAdValidation("Успешное завершение процедуры валидации")
                 }
+                chain {
+                    title = "Логика удаления"
+                    repoRead("Чтение объекта из БД")
+                    repoPrepareDelete("Подготовка объекта для удаления")
+                    repoDelete("Удаление объекта из БД")
+                }
+                prepareResult("Подготовка ответа")
             }
 
             operation("Поиск блюда", EQrMenuCommand.SEARCH) {
