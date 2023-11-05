@@ -3,11 +3,18 @@ package ru.sosninanv.qrmenu.biz
 import QrMenuContext
 import QrMenuCorSettings
 import models.EQrMenuCommand
+import models.EQrMenuState
 import models.QrMenuDishId
+import ru.sosninanv.qrmenu.biz.general.initRepo
+import ru.sosninanv.qrmenu.biz.general.prepareResult
 import ru.sosninanv.qrmenu.biz.groups.operation
 import ru.sosninanv.qrmenu.biz.groups.stubs
+import ru.sosninanv.qrmenu.biz.repo.repoCreate
+import ru.sosninanv.qrmenu.biz.repo.repoPrepareCreate
+import ru.sosninanv.qrmenu.biz.repo.repoRead
 import ru.sosninanv.qrmenu.biz.validation.*
 import ru.sosninanv.qrmenu.biz.workers.*
+import ru.sosninanv.qrmenu.cor.handlers.chain
 import ru.sosninanv.qrmenu.cor.handlers.worker
 import ru.sosninanv.qrmenu.cor.rootChain
 
@@ -21,7 +28,9 @@ class QrMenuDishProcessor {
 
         val BusinessChain = rootChain<QrMenuContext> {
             initStatus("Инициализация бизнес-цепочки")
+            initRepo("Инициализация репозитория")
 
+            /** CREATE */
             operation("Создание блюда", EQrMenuCommand.CREATE) {
                 stubs("Обработка стабов") {
                     stubCreateSuccess("Имитация успешной обработки")
