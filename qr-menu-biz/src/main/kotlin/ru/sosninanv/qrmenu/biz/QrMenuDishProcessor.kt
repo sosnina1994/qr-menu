@@ -9,9 +9,7 @@ import ru.sosninanv.qrmenu.biz.general.initRepo
 import ru.sosninanv.qrmenu.biz.general.prepareResult
 import ru.sosninanv.qrmenu.biz.groups.operation
 import ru.sosninanv.qrmenu.biz.groups.stubs
-import ru.sosninanv.qrmenu.biz.repo.repoCreate
-import ru.sosninanv.qrmenu.biz.repo.repoPrepareCreate
-import ru.sosninanv.qrmenu.biz.repo.repoRead
+import ru.sosninanv.qrmenu.biz.repo.*
 import ru.sosninanv.qrmenu.biz.validation.*
 import ru.sosninanv.qrmenu.biz.workers.*
 import ru.sosninanv.qrmenu.cor.handlers.chain
@@ -53,14 +51,14 @@ class QrMenuDishProcessor(
                 chain {
                     title = "Логика сохранения"
                     repoPrepareCreate("Подготовка объекта для сохранения")
-                    repoCreate("Создание блюда в БД")
+                    repoCreate("Создание объекта в БД")
                 }
                 prepareResult("Подготовка ответа")
 
             }
 
             /** READ */
-            operation("Получение блюда", EQrMenuCommand.READ) {
+            operation("Получение объекта", EQrMenuCommand.READ) {
                 stubs("Обработка стабов") {
                     stubReadSuccess("Имитация успешной обработки")
                     stubValidationBadId("Имитация ошибки валидации id")
@@ -78,7 +76,7 @@ class QrMenuDishProcessor(
                 }
                 chain {
                     title = "Логика чтения"
-                    repoRead("Чтение объявления из БД")
+                    repoRead("Чтение объекта из БД")
                     worker {
                         title = "Подготовка ответа для Read"
                         on { state == EQrMenuState.RUNNING }
@@ -88,7 +86,8 @@ class QrMenuDishProcessor(
                 prepareResult("Подготовка ответа")
             }
 
-            operation("Изменение блюда", EQrMenuCommand.UPDATE) {
+            /** UPDATE */
+            operation("Изменение данных", EQrMenuCommand.UPDATE) {
                 stubs("Обработка стабов") {
                     stubUpdateSuccess("Имитация успешной обработки")
                     stubValidationBadId("Имитация ошибки валидации id")
@@ -106,10 +105,19 @@ class QrMenuDishProcessor(
                 validateNameNotEmpty("Проверка на непустое имя")
                 validateNameHasContent("Проверка символов")
                 validateDescriptionNotEmpty("Проверка на непустое описание")
-                validateDescriptionHasContent("ППроверка символов")
+                validateDescriptionHasContent("Проверка символов")
 
                 finishAdValidation("Успешное завершение процедуры валидации")
             }
+
+            chain {
+                title = "Логика сохранения"
+                repoRead("Чтение данных из БД")
+                repoPrepareUpdate("Подготовка объекта для обновления")
+                repoUpdate("Обновление объекта в БД")
+            }
+            prepareResult("Подготовка ответа")
+
 
             operation("Удаление блюда", EQrMenuCommand.DELETE) {
                 stubs("Обработка стабов") {

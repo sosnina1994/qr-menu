@@ -1,7 +1,6 @@
 package ru.sosninanv.qrmenu.logging
 
 import kotlinx.datetime.Clock
-import ru.otus.otuskotlin.marketplace.logging.common.LogLevel
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTimedValue
 

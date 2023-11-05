@@ -1,5 +1,5 @@
 import repo.IDishRepository
-import ru.otus.otuskotlin.marketplace.logging.common.MpLoggerProvider
+import ru.sosninanv.qrmenu.logging.MpLoggerProvider
 
 data class QrMenuCorSettings(
     val loggerProvider: MpLoggerProvider = MpLoggerProvider(),

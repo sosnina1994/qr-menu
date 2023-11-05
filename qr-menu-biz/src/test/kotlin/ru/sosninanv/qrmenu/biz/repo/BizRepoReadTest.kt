@@ -15,7 +15,7 @@ class BizRepoReadTest {
 
     private val userId = QrMenuUserId("321")
     private val command = EQrMenuCommand.READ
-    private val initAd = QrMenuDish(
+    private val initDish = QrMenuDish(
         id = QrMenuDishId("123"),
         name = "abc",
         description = "abc",
@@ -28,7 +28,7 @@ class BizRepoReadTest {
             invokeReadDish = {
                 DbDishResponse(
                     isSuccess = true,
-                    data = initAd,
+                    data = initDish,
                 )
             }
         )
@@ -52,9 +52,9 @@ class BizRepoReadTest {
 
         processor.exec(ctx)
         assertEquals(EQrMenuState.FINISHING, ctx.state)
-        assertEquals(initAd.id, ctx.dishResponse.id)
-        assertEquals(initAd.name, ctx.dishResponse.name)
-        assertEquals(initAd.description, ctx.dishResponse.description)
+        assertEquals(initDish.id, ctx.dishResponse.id)
+        assertEquals(initDish.name, ctx.dishResponse.name)
+        assertEquals(initDish.description, ctx.dishResponse.description)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
