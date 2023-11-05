@@ -7,7 +7,7 @@ data class QrMenuContext(
     var command: EQrMenuCommand = EQrMenuCommand.NONE,
     var state: EQrMenuState = EQrMenuState.NONE,
     val errors: MutableList<QrMenuError> = mutableListOf(),
-    val settings: QrMenuCorSettings = QrMenuCorSettings.NONE,
+    var settings: QrMenuCorSettings = QrMenuCorSettings.NONE,
 
     var workMode: EQrMenuWorkMode = EQrMenuWorkMode.TEST,
     var stubCase: EQrMenuStubs = EQrMenuStubs.NONE,

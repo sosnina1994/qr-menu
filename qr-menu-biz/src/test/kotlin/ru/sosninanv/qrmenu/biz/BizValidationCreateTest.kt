@@ -1,5 +1,7 @@
 package ru.sosninanv.qrmenu.biz
 
+import DishRepoStub
+import QrMenuCorSettings
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import models.EQrMenuCommand
 import ru.sosninanv.qrmenu.biz.validation.*
@@ -9,7 +11,8 @@ import kotlin.test.Test
 class BizValidationCreateTest {
 
     private val command = EQrMenuCommand.CREATE
-    private val processor by lazy { QrMenuDishProcessor() }
+    private val settings by lazy { QrMenuCorSettings(repoTest = DishRepoStub()) }
+    private val processor by lazy { QrMenuDishProcessor(settings) }
 
     @Test fun correctName() = validationNameCorrect(command, processor)
     @Test fun trimName() = validationNameTrim(command, processor)

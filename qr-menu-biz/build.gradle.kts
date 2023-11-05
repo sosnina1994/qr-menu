@@ -16,6 +16,8 @@ kotlin {
                     implementation(project(":qr-menu-common"))
                     implementation(project(":qr-menu-stubs"))
                     implementation(project(":qr-menu-lib-cor"))
+                    implementation(project(":qr-menu-repository-stubs"))
+                    implementation(project(":qr-menu-repository-tests"))
                 }
 
                 @Suppress("UNUSED_VARIABLE")

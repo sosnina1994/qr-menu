@@ -1,6 +1,8 @@
 package ru.sosninanv.qrmenu.biz
 
+import DishRepoStub
 import QrMenuContext
+import QrMenuCorSettings
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import models.EQrMenuCommand
@@ -15,7 +17,8 @@ import kotlin.test.assertNotEquals
 class BizValidationSearchTest {
 
     private val command = EQrMenuCommand.SEARCH
-    private val processor by lazy { QrMenuDishProcessor() }
+    private val settings by lazy { QrMenuCorSettings(repoTest = DishRepoStub()) }
+    private val processor by lazy { QrMenuDishProcessor(settings) }
 
     @Test
     fun correctEmpty() = runTest {

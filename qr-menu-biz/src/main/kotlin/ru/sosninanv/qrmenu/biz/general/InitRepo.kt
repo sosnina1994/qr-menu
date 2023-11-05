@@ -14,9 +14,9 @@ fun ICorAddExecDsl<QrMenuContext>.initRepo(title: String) = worker {
         Вычисление основного рабочего репозитория в зависимости от режима работы        
     """.trimIndent()
     handle {
-        dishRepo = when (workMode) {
-            EQrMenuWorkMode.TEST -> settings.repoTest
-            EQrMenuWorkMode.STUB -> settings.repoStub
+        dishRepo = when {
+            workMode == EQrMenuWorkMode.TEST -> settings.repoTest
+            workMode == EQrMenuWorkMode.STUB -> settings.repoStub
             else -> settings.repoProd
         }
         if (workMode != EQrMenuWorkMode.STUB && dishRepo == IDishRepository.NONE) fail(

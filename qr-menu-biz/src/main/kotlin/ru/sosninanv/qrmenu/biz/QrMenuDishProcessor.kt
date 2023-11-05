@@ -18,11 +18,11 @@ import ru.sosninanv.qrmenu.cor.handlers.chain
 import ru.sosninanv.qrmenu.cor.handlers.worker
 import ru.sosninanv.qrmenu.cor.rootChain
 
-class QrMenuDishProcessor {
+class QrMenuDishProcessor(
     @Suppress("unused")
     private val corSettings: QrMenuCorSettings = QrMenuCorSettings.NONE
-
-    suspend fun exec(ctx: QrMenuContext) = BusinessChain.exec(ctx)
+) {
+    suspend fun exec(ctx: QrMenuContext) = BusinessChain.exec(ctx.apply { settings = corSettings })
 
     companion object {
 
