@@ -49,10 +49,17 @@ class QrMenuDishProcessor {
                     validateDescriptionNotEmpty("Проверка, что описание не пусто")
                     validateDescriptionHasContent("Проверка символов")
                     finishAdValidation("Завершение проверок")
-
                 }
+                chain {
+                    title = "Логика сохранения"
+                    repoPrepareCreate("Подготовка объекта для сохранения")
+                    repoCreate("Создание блюда в БД")
+                }
+                prepareResult("Подготовка ответа")
+
             }
 
+            /** READ */
             operation("Получение блюда", EQrMenuCommand.READ) {
                 stubs("Обработка стабов") {
                     stubReadSuccess("Имитация успешной обработки")
@@ -69,6 +76,16 @@ class QrMenuDishProcessor {
 
                     finishAdValidation("Успешное завершение процедуры валидации")
                 }
+                chain {
+                    title = "Логика чтения"
+                    repoRead("Чтение объявления из БД")
+                    worker {
+                        title = "Подготовка ответа для Read"
+                        on { state == EQrMenuState.RUNNING }
+                        handle { dishRepoDone = dishRepoRead }
+                    }
+                }
+                prepareResult("Подготовка ответа")
             }
 
             operation("Изменение блюда", EQrMenuCommand.UPDATE) {
