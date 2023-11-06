@@ -17,7 +17,7 @@ object QrMenuDishStub {
     )
 
     private fun dishDemand(id: String, filter: String, type: EQrMenuDishType) =
-        dish(get(), id = id, filter = filter, type = type)
+        dish(DISH, id = id, filter = filter, type = type)
 
     private fun dish(base: QrMenuDish, id: String, filter: String, type: EQrMenuDishType) = base.copy(
         id = QrMenuDishId(id),
