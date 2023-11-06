@@ -5,7 +5,7 @@ import models.EQrMenuState
 import ru.sosninanv.qrmenu.cor.ICorAddExecDsl
 import ru.sosninanv.qrmenu.cor.handlers.worker
 
-fun ICorAddExecDsl<QrMenuContext>.finishAdValidation(title: String) = worker {
+fun ICorAddExecDsl<QrMenuContext>.finishDishValidation(title: String) = worker {
     this.title = title
     on { state == EQrMenuState.RUNNING }
     handle {
@@ -13,7 +13,7 @@ fun ICorAddExecDsl<QrMenuContext>.finishAdValidation(title: String) = worker {
     }
 }
 
-fun ICorAddExecDsl<QrMenuContext>.finishAdFilterValidation(title: String) = worker {
+fun ICorAddExecDsl<QrMenuContext>.finishDishFilterValidation(title: String) = worker {
     this.title = title
     on { state == EQrMenuState.RUNNING }
     handle {

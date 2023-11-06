@@ -46,7 +46,7 @@ class QrMenuDishProcessor(
                     validateNameHasContent("Проверка символов")
                     validateDescriptionNotEmpty("Проверка, что описание не пусто")
                     validateDescriptionHasContent("Проверка символов")
-                    finishAdValidation("Завершение проверок")
+                    finishDishValidation("Завершение проверок")
                 }
                 chain {
                     title = "Логика сохранения"
@@ -72,7 +72,7 @@ class QrMenuDishProcessor(
                     validateIdNotEmpty("Проверка на непустой id")
                     validateIdProperFormat("Проверка формата id")
 
-                    finishAdValidation("Успешное завершение процедуры валидации")
+                    finishDishValidation("Успешное завершение процедуры валидации")
                 }
                 chain {
                     title = "Логика чтения"
@@ -108,7 +108,7 @@ class QrMenuDishProcessor(
                     validateDescriptionNotEmpty("Проверка на непустое описание")
                     validateDescriptionHasContent("Проверка символов")
 
-                    finishAdValidation("Успешное завершение процедуры валидации")
+                    finishDishValidation("Успешное завершение процедуры валидации")
                 }
                 chain {
                     title = "Логика сохранения"
@@ -135,7 +135,7 @@ class QrMenuDishProcessor(
 
                     validateIdNotEmpty("Проверка на непустой id")
                     validateIdProperFormat("Проверка формата id")
-                    finishAdValidation("Успешное завершение процедуры валидации")
+                    finishDishValidation("Успешное завершение процедуры валидации")
                 }
                 chain {
                     title = "Логика удаления"
@@ -146,19 +146,20 @@ class QrMenuDishProcessor(
                 prepareResult("Подготовка ответа")
             }
 
-            operation("Поиск блюда", EQrMenuCommand.SEARCH) {
+            /** SEARCH */
+            operation("Поиск объекта", EQrMenuCommand.SEARCH) {
                 stubs("Обработка стабов") {
                     stubSearchSuccess("Имитация успешной обработки")
                     stubValidationBadId("Имитация ошибки валидации id")
                     stubDbError("Имитация ошибки обращения к базе данных")
                     stubNoCase("Имитация ошибки: запрошенный стаб недопустим")
                 }
-
                 validation {
-                    worker("Копируем поля в adFilterValidating") { dishFilterValidating = dishFilterRequest.copy() }
-
-                    finishAdFilterValidation("Успешное завершение процедуры валидации")
+                    worker("Копируем поля в dishFilterValidating") { dishFilterValidating = dishFilterRequest.copy() }
+                    finishDishFilterValidation("Успешное завершение процедуры валидации")
                 }
+                repoSearch("Поиск объектов в БД по фильтру")
+                prepareResult("Подготовка ответа")
             }
 
         }.build()
