@@ -16,12 +16,24 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import org.slf4j.event.Level
+import ru.sosninanv.qrmenu.app.plagins.initAppSettings
 import ru.sosninanv.qrmenu.app.v1.v1Dish
+import ru.sosninanv.qrmenu.logging.MpLogWrapperLogback
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
+private val clazz = Application::moduleJvm::class.qualifiedName ?: "Application"
 @Suppress("unused")
-fun Application.moduleJvm() {
+fun Application.moduleJvm(appSettings: QrMenuAppSettings = initAppSettings()) {
+
+    install(CallLogging) {
+        level = Level.INFO
+        val lgr = appSettings
+            .corSettings
+            .loggerProvider
+            .logger(clazz) as? MpLogWrapperLogback
+        lgr?.logger?.also { logger = it }
+    }
 
     install(CORS) {
         allowMethod(HttpMethod.Options)
@@ -31,10 +43,6 @@ fun Application.moduleJvm() {
         allowHeader(HttpHeaders.Authorization)
         allowHeader("MyCustomHeader")
         anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
-    }
-
-    install(CallLogging) {
-        level = Level.INFO
     }
 
     install(ContentNegotiation) {

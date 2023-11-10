@@ -44,6 +44,9 @@ dependencies {
     implementation(project(":qr-menu-mappers"))
     implementation(project(":qr-menu-common"))
     implementation(project(":qr-menu-stubs"))
+    implementation(project(":qr-menu-biz"))
+    implementation(project(":qr-menu-repo-in-memory"))
+    implementation(project(":qr-menu-repository-stubs"))
 
 
     implementation("io.ktor:ktor-server-cors-jvm:2.2.4")
