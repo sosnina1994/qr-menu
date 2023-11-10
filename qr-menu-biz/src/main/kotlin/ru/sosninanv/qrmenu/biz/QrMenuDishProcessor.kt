@@ -5,6 +5,7 @@ import QrMenuCorSettings
 import models.EQrMenuCommand
 import models.EQrMenuState
 import models.QrMenuDishId
+import models.QrMenuDishLock
 import ru.sosninanv.qrmenu.biz.general.initRepo
 import ru.sosninanv.qrmenu.biz.general.prepareResult
 import ru.sosninanv.qrmenu.biz.groups.operation
@@ -98,11 +99,14 @@ class QrMenuDishProcessor(
                 validation {
                     worker("Копируем поля в dishValidating") { dishValidating = dishRequest.deepCopy() }
                     worker("Очистка id") { dishValidating.id = QrMenuDishId(dishValidating.id.asString().trim()) }
+                    worker("Очистка lock") { dishValidating.lock = QrMenuDishLock(dishValidating.lock.asString().trim()) }
                     worker("Очистка имени") { dishValidating.name = dishValidating.name.trim() }
                     worker("Очистка описания") { dishValidating.description = dishValidating.description.trim() }
 
                     validateIdNotEmpty("Проверка на непустой id")
                     validateIdProperFormat("Проверка формата id")
+                    validateLockNotEmpty("Проверка на непустой lock")
+                    validateLockProperFormat("Проверка формата lock")
                     validateNameNotEmpty("Проверка на непустое имя")
                     validateNameHasContent("Проверка символов")
                     validateDescriptionNotEmpty("Проверка на непустое описание")
@@ -132,9 +136,12 @@ class QrMenuDishProcessor(
                 validation {
                     worker("Копируем поля в dishValidating") { dishValidating = dishRequest.deepCopy() }
                     worker("Очистка id") { dishValidating.id = QrMenuDishId(dishValidating.id.asString().trim()) }
+                    worker("Очистка lock") { dishValidating.lock = QrMenuDishLock(dishValidating.lock.asString().trim()) }
 
                     validateIdNotEmpty("Проверка на непустой id")
                     validateIdProperFormat("Проверка формата id")
+                    validateLockNotEmpty("Проверка на непустой lock")
+                    validateLockProperFormat("Проверка формата lock")
                     finishDishValidation("Успешное завершение процедуры валидации")
                 }
                 chain {

@@ -19,6 +19,11 @@ class BizValidationUpdateTest {
     @Test fun emptyTitle() = validationNameEmpty(command, processor)
     @Test fun badSymbolsTitle() = validationNameSymbols(command, processor)
 
+    @Test fun validationLockCorrect() = validationLockCorrect(command, processor)
+    @Test fun validationLockTrim() = validationLockTrim(command, processor)
+    @Test fun validationLockEmpty() = validationLockEmpty(command, processor)
+    @Test fun validationLockFormat() = validationLockFormat(command, processor)
+
     @Test fun correctDescription() = validationDescriptionCorrect(command, processor)
     @Test fun trimDescription() = validationDescriptionTrim(command, processor)
     @Test fun emptyDescription() = validationDescriptionEmpty(command, processor)

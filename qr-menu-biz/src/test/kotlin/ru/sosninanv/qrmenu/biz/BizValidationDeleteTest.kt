@@ -21,6 +21,10 @@ class BizValidationDeleteTest {
     @Test fun trimId() = validationIdTrim(command, processor)
     @Test fun emptyId() = validationIdEmpty(command, processor)
     @Test fun badFormatId() = validationIdFormat(command, processor)
+    @Test fun validationLockCorrect() = ru.sosninanv.qrmenu.biz.validation.validationLockCorrect(command, processor)
+    @Test fun validationLockTrim() = ru.sosninanv.qrmenu.biz.validation.validationLockTrim(command, processor)
+    @Test fun validationLockEmpty() = ru.sosninanv.qrmenu.biz.validation.validationLockEmpty(command, processor)
+    @Test fun validationLockFormat() = ru.sosninanv.qrmenu.biz.validation.validationLockFormat(command, processor)
 
 
 }
