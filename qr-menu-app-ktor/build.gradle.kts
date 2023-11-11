@@ -24,6 +24,9 @@ application {
 }
 
 dependencies {
+    val testContainersVersion: String by project
+    val kmpUUIDVersion: String by project
+
     implementation(kotlin("stdlib"))
     implementation(ktor("core")) // "io.ktor:ktor-server-core:$ktorVersion"
     implementation(ktor("netty")) // "io.ktor:ktor-ktor-server-netty:$ktorVersion"
@@ -38,6 +41,8 @@ dependencies {
     implementation(kotlin("test-junit"))
     implementation(ktor("test-host")) // "io.ktor:ktor-server-test-host:$ktorVersion"
     implementation(ktor("content-negotiation", prefix = "client-"))
+    implementation("com.benasher44:uuid:$kmpUUIDVersion")
+
 
     // models
     implementation(project(":qr-menu-api-v1-jackson"))
@@ -46,8 +51,10 @@ dependencies {
     implementation(project(":qr-menu-stubs"))
     implementation(project(":qr-menu-biz"))
     implementation(project(":qr-menu-repo-in-memory"))
+    implementation(project(":qr-menu-repo-postgresql"))
     implementation(project(":qr-menu-repository-stubs"))
 
+    testImplementation("org.testcontainers:postgresql:$testContainersVersion")
 
     implementation("io.ktor:ktor-server-cors-jvm:2.2.4")
     implementation("io.ktor:ktor-server-call-logging-jvm:2.2.4")

@@ -6,13 +6,14 @@ import QrMenuCorSettings
 import io.ktor.server.application.*
 import ru.sosninanv.qrmenu.app.QrMenuAppSettings
 import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor
+import ru.sosninanv.qrmenu.repo.postgresql.RepoDishSQL
 
 
 fun Application.initAppSettings(): QrMenuAppSettings {
     val corSettings = QrMenuCorSettings(
         loggerProvider = getLoggerProviderConf(),
-        repoTest = DishRepoInMemory(), //getDatabaseConf(DbType.TEST),
-        repoProd = DishRepoInMemory(), //getDatabaseConf(DbType.PROD),
+        repoTest = getDatabaseConf(DbType.TEST),
+        repoProd = getDatabaseConf(DbType.PROD),
         repoStub = DishRepoStub(),
     )
     return QrMenuAppSettings(

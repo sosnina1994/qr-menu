@@ -5,20 +5,25 @@ import io.ktor.server.application.*
 import repo.IDishRepository
 import ru.sosninanv.qrmenu.app.configs.ConfigPaths
 import ru.sosninanv.qrmenu.app.configs.PostgresConfig
+import ru.sosninanv.qrmenu.repo.postgresql.RepoDishSQL
+import ru.sosninanv.qrmenu.repo.postgresql.SqlProperties
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 fun Application.getDatabaseConf(type: DbType): IDishRepository {
-    val dbSettingPath = "${ConfigPaths.repository}.${type.confName}"
+    /*val dbSettingPath = "${ConfigPaths.repository}.${type.confName}"
     val dbSetting = environment.config.propertyOrNull(dbSettingPath)?.getString()?.lowercase()
     return when (dbSetting) {
         "in-memory", "inmemory", "memory", "mem" -> initInMemory()
-        //"postgres", "postgresql", "pg", "sql", "psql" -> initPostgres()
+        "postgres", "postgresql", "pg", "sql", "psql" -> initPostgres()
         else -> throw IllegalArgumentException(
             "$dbSettingPath must be set in application.yml to one of: " +
                     "'inmemory', 'postgres', 'cassandra', 'gremlin'"
         )
-    }
+    }*/
+
+    return if (type.confName.equals("test")) initInMemory()
+    else initPostgres()
 }
 
 private fun Application.initInMemory(): IDishRepository {
@@ -28,9 +33,9 @@ private fun Application.initInMemory(): IDishRepository {
     return DishRepoInMemory(ttl = ttlSetting ?: 10.minutes)
 }
 
-/*private fun Application.initPostgres(): IDishRepository {
+private fun Application.initPostgres(): IDishRepository {
     val config = PostgresConfig(environment.config)
-    return RepoAdSQL(
+    return RepoDishSQL(
         properties = SqlProperties(
             url = config.url,
             user = config.user,
@@ -38,7 +43,7 @@ private fun Application.initInMemory(): IDishRepository {
             schema = config.schema,
         )
     )
-}*/
+}
 
 enum class DbType(val confName: String) {
     PROD("prod"), TEST("test")

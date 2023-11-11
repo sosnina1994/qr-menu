@@ -5,8 +5,8 @@ import io.ktor.server.config.*
 data class PostgresConfig(
     val url: String = "jdbc:postgresql://localhost:5432/qrmenu",
     val user: String = "postgres",
-    val password: String = "marketplace-pass",
-    val schema: String = "marketplace",
+    val password: String = "qrmenupg",
+    val schema: String = "qr-menu",
 ) {
     constructor(config: ApplicationConfig): this(
         url = config.property("$PATH.url").getString(),
