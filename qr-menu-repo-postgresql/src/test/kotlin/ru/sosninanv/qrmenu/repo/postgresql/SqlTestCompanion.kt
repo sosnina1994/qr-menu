@@ -9,8 +9,8 @@ class PostgresContainer : PostgreSQLContainer<PostgresContainer>("postgres:13.2"
 
 object SqlTestCompanion {
     private const val USER = "postgres"
-    private const val PASS = "qrmenupg"
-    private const val SCHEMA = "qr-menu"
+    private const val PASS = "password"
+    private const val SCHEMA = "menu"
 
     private val container by lazy {
         PostgresContainer().apply {
@@ -35,7 +35,7 @@ object SqlTestCompanion {
                 user = USER,
                 password = PASS,
                 schema = SCHEMA,
-                table = "t_dishes_$test",
+                table = "dishes_$test",
             ),
             initObjects,
             randomUuid = randomUuid

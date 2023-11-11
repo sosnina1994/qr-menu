@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
 
-class DishTable(tableName: String = "t_dishes") : Table(tableName) {
+class DishTable(tableName: String = "dishes") : Table(tableName) {
     val id = varchar("id", 128)
     val name = varchar("name", 128)
     val description = text("description")
