@@ -1,9 +1,9 @@
-qrmenu:
+menu:
   repository:
     test: inmemory
-    prod: psql
+    prod: postgres
     psql:
-      password: qrmenupg
-      schema: qr-menu
-      url: jdbc:postgresql://localhost:5432/qrmenu
+      password: password
+      schema: menu
+      url: jdbc:postgresql://localhost:5432/menu
       user: postgres

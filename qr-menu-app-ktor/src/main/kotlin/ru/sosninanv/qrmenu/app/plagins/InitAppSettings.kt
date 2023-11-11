@@ -1,12 +1,10 @@
 package ru.sosninanv.qrmenu.app.plagins
 
-import DishRepoInMemory
 import DishRepoStub
 import QrMenuCorSettings
 import io.ktor.server.application.*
 import ru.sosninanv.qrmenu.app.QrMenuAppSettings
 import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor
-import ru.sosninanv.qrmenu.repo.postgresql.RepoDishSQL
 
 
 fun Application.initAppSettings(): QrMenuAppSettings {

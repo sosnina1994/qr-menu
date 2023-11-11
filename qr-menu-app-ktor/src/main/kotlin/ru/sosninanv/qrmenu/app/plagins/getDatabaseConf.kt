@@ -11,19 +11,17 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 fun Application.getDatabaseConf(type: DbType): IDishRepository {
-    /*val dbSettingPath = "${ConfigPaths.repository}.${type.confName}"
+    val dbSettingPath = "${ConfigPaths.repository}.${type.confName}"
     val dbSetting = environment.config.propertyOrNull(dbSettingPath)?.getString()?.lowercase()
     return when (dbSetting) {
-        "in-memory", "inmemory", "memory", "mem" -> initInMemory()
-        "postgres", "postgresql", "pg", "sql", "psql" -> initPostgres()
+        "inmemory" -> initInMemory()
+        "postgres" -> initPostgres()
         else -> throw IllegalArgumentException(
             "$dbSettingPath must be set in application.yml to one of: " +
                     "'inmemory', 'postgres', 'cassandra', 'gremlin'"
         )
-    }*/
+    }
 
-    return if (type.confName.equals("test")) initInMemory()
-    else initPostgres()
 }
 
 private fun Application.initInMemory(): IDishRepository {
