@@ -22,24 +22,7 @@ import ru.sosninanv.qrmenu.app.plagins.initAppSettings
 import ru.sosninanv.qrmenu.app.v1.v1Dish
 import ru.sosninanv.qrmenu.logging.MpLogWrapperLogback
 
-fun main() {
-    embeddedServer(Netty, environment = applicationEngineEnvironment {
-        val conf = YamlConfigLoader().load("./application.yaml")
-            ?: throw RuntimeException("Cannot read application.yaml")
-        config = conf
-        println("File read")
-
-        module {
-            moduleJvm()
-        }
-        connector {
-            port = conf.tryGetString("ktor.deployment.port")?.toIntOrNull() ?: 8080
-            host = conf.tryGetString("ktor.deployment.host") ?: "0.0.0.0"
-        }
-    }).apply {
-        start(true)
-    }
-}
+fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 private val clazz = Application::moduleJvm::class.qualifiedName ?: "Application"
 @Suppress("unused")
