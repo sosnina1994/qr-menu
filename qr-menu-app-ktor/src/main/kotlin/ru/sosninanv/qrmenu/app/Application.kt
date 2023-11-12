@@ -4,6 +4,8 @@ import apiV1Mapper
 import io.ktor.http.*
 import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
+import io.ktor.server.config.*
+import io.ktor.server.config.yaml.*
 import io.ktor.server.engine.*
 import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
@@ -20,7 +22,24 @@ import ru.sosninanv.qrmenu.app.plagins.initAppSettings
 import ru.sosninanv.qrmenu.app.v1.v1Dish
 import ru.sosninanv.qrmenu.logging.MpLogWrapperLogback
 
-fun main(args: Array<String>) = EngineMain.main(args)
+fun main(args: Array<String>) {
+    embeddedServer(Netty, environment = applicationEngineEnvironment {
+        val conf = YamlConfigLoader().load("./application.yaml")
+            ?: throw RuntimeException("Cannot read application.yaml")
+        config = conf
+        println("File read")
+
+        module {
+            moduleJvm()
+        }
+        connector {
+            port = conf.tryGetString("ktor.deployment.port")?.toIntOrNull() ?: 8080
+            host = conf.tryGetString("ktor.deployment.host") ?: "0.0.0.0"
+        }
+    }).apply {
+        start(true)
+    }
+}
 
 private val clazz = Application::moduleJvm::class.qualifiedName ?: "Application"
 @Suppress("unused")

@@ -52,10 +52,12 @@ dependencies {
     implementation(project(":qr-menu-biz"))
     implementation(project(":qr-menu-repo-in-memory"))
     implementation(project(":qr-menu-repo-postgresql"))
+    testImplementation(project(":qr-menu-repository-tests"))
     implementation(project(":qr-menu-repository-stubs"))
 
     testImplementation("org.testcontainers:postgresql:$testContainersVersion")
 
+    implementation(ktor("config-yaml"))
     implementation("io.ktor:ktor-server-cors-jvm:2.2.4")
     implementation("io.ktor:ktor-server-call-logging-jvm:2.2.4")
     implementation("io.ktor:ktor-server-partial-content-jvm:2.2.4")

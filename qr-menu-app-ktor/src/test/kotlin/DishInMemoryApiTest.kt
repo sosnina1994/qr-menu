@@ -40,10 +40,12 @@ class DishInMemoryApiTest {
 
     @Test
     fun create() = testApplication {
+
         val repo = DishRepoInMemory(initObjects = listOf(initDish), randomUuid = { uuidNew })
         application {
             moduleJvm(QrMenuAppSettings(corSettings = QrMenuCorSettings(repoTest = repo)))
         }
+
         val client = myClient()
 
         val createDish = DishCreateObject(

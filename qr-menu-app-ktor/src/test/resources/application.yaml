@@ -1,0 +1,8 @@
+ktor:
+  development: true
+  deployment:
+    port: 8080
+    host: "127.0.0.1"
+    watch:
+      - classes
+      - resources
