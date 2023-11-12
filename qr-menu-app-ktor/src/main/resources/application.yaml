@@ -13,5 +13,5 @@ menu:
     psql:
       password: password
       schema: menu
-      url: "jdbc:postgresql://localhost:5432/menu"
+      url: "jdbc:postgresql://localhost:5433/menu"
       user: postgres

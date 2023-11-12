@@ -1,4 +1,3 @@
-/*
 import SqlTestCompanion.repoUnderTestContainer
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -19,30 +18,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 class DishPostgresApiTest {
-    private val uuidOld = "10000000-0000-0000-0000-000000000001"
-    private val uuidNew = "10000000-0000-0000-0000-000000000002"
-    private val uuidSup = "10000000-0000-0000-0000-000000000003"
-
-    private val initDish = QrMenuDishStub.prepareResult {
-        id = QrMenuDishId(uuidOld)
-        name = "abc"
-        description = "abc"
-        cost = 0.0
-        type = EQrMenuDishType.DESSERT
-        ownerId = QrMenuUserId("abc-Abc")
-        visibility = EQrMenuVisibility.PUBLIC
-        lock = QrMenuDishLock(uuidOld)
-    }
-
-    private val initDishSupply = QrMenuDishStub.prepareResult {
-        id = QrMenuDishId(uuidSup)
-        name = "abc"
-        description = "abc"
-        cost = 0.0
-        type = EQrMenuDishType.DESSERT
-        ownerId = QrMenuUserId("abc-Abc")
-        visibility = EQrMenuVisibility.PUBLIC
-    }
 
     companion object {
         @BeforeClass
@@ -58,10 +33,23 @@ class DishPostgresApiTest {
         }
     }
 
+    private val uuidOld = "10000000-0000-0000-0000-000000000001"
+    private val uuidNew = "10000000-0000-0000-0000-000000000002"
+
+    private val initDish = QrMenuDishStub.prepareResult {
+        id = QrMenuDishId(uuidOld)
+        name = "abc"
+        description = "abc"
+        cost = 0.0
+        type = EQrMenuDishType.DESSERT
+        ownerId = QrMenuUserId("abc-Abc")
+        visibility = EQrMenuVisibility.PUBLIC
+        lock = QrMenuDishLock(uuidOld)
+    }
+
     @Test
     fun create() = testApplication {
         val repo = repoUnderTestContainer(test = "create", initObjects = listOf(initDish), randomUuid = { uuidNew })
-
         application {
             moduleJvm(QrMenuAppSettings(corSettings = QrMenuCorSettings(repoTest = repo)))
         }
@@ -75,7 +63,7 @@ class DishPostgresApiTest {
             visibility = EDishVisibility.PUBLIC
         )
 
-        val response = client.post("/v1/ad/create") {
+        val response = client.post("/v1/dish/create") {
             val requestObj = DishCreateRequest(
                 requestId = "12345",
                 dish = createDish,
@@ -95,6 +83,122 @@ class DishPostgresApiTest {
         assertEquals(createDish.visibility, responseObj.dish?.visibility)
     }
 
+    @Test
+    fun read() = testApplication {
+        val repo = repoUnderTestContainer(test = "read", initObjects = listOf(initDish), randomUuid = { uuidNew })
+        application {
+            moduleJvm(QrMenuAppSettings(corSettings = QrMenuCorSettings(repoTest = repo)))
+        }
+
+        val client = myClient()
+
+        val response = client.post("/v1/dish/read") {
+            val requestObj = DishReadRequest(
+                requestId = "12345",
+                dish = DishReadObject(uuidOld),
+                debug = DishDebug(
+                    mode = EDishRequestDebugMode.TEST,
+                )
+            )
+            contentType(ContentType.Application.Json)
+            setBody(requestObj)
+        }
+        val responseObj = response.body<DishReadResponse>()
+        assertEquals(200, response.status.value)
+        assertEquals(uuidOld, responseObj.dish?.id)
+    }
+
+    @Test
+    fun update() = testApplication {
+        val repo = repoUnderTestContainer(test = "update", initObjects = listOf(initDish), randomUuid = { uuidNew })
+        application {
+            moduleJvm(QrMenuAppSettings(corSettings = QrMenuCorSettings(repoTest = repo)))
+        }
+        val client = myClient()
+
+        val dishUpdate = DishUpdateObject(
+            id = uuidOld,
+            name = "qwer1",
+            description = "qwer",
+            cost = 0.0,
+            dishType = EDishType.DESSERT,
+            visibility = EDishVisibility.PUBLIC,
+            lock = initDish.lock.asString()
+        )
+
+        val response = client.post("/v1/dish/update") {
+            val requestObj = DishUpdateRequest(
+                requestId = "12345",
+                dish = dishUpdate,
+                debug = DishDebug(
+                    mode = EDishRequestDebugMode.TEST,
+                )
+            )
+            contentType(ContentType.Application.Json)
+            setBody(requestObj)
+        }
+        val responseObj = response.body<DishUpdateResponse>()
+        assertEquals(200, response.status.value)
+        assertEquals(dishUpdate.id, responseObj.dish?.id)
+        assertEquals(dishUpdate.name, responseObj.dish?.name)
+        assertEquals(dishUpdate.description, responseObj.dish?.description)
+        assertEquals(dishUpdate.dishType, responseObj.dish?.dishType)
+        assertEquals(dishUpdate.visibility, responseObj.dish?.visibility)
+    }
+
+    @Test
+    fun delete() = testApplication {
+        val repo = repoUnderTestContainer(test = "delete", initObjects = listOf(initDish), randomUuid = { uuidNew })
+        application {
+            moduleJvm(QrMenuAppSettings(corSettings = QrMenuCorSettings(repoTest = repo)))
+        }
+        val client = myClient()
+
+        val response = client.post("/v1/dish/delete") {
+
+            val requestObj = DishDeleteRequest(
+                requestId = "12345",
+                dish = DishDeleteObject(
+                    id = uuidOld,
+                    lock = initDish.lock.asString()
+                ),
+                debug = DishDebug(
+                    mode = EDishRequestDebugMode.TEST,
+                )
+            )
+            contentType(ContentType.Application.Json)
+            setBody(requestObj)
+        }
+        val responseObj = response.body<DishDeleteResponse>()
+        assertEquals(200, response.status.value)
+        assertEquals(uuidOld, responseObj.dish?.id)
+    }
+
+    @Test
+    fun search() = testApplication {
+        val repo = repoUnderTestContainer(test = "search", initObjects = listOf(initDish), randomUuid = { uuidNew })
+        application {
+            moduleJvm(QrMenuAppSettings(corSettings = QrMenuCorSettings(repoTest = repo)))
+        }
+        val client = myClient()
+
+        val response = client.post("/v1/dish/search") {
+            val requestObj = DishSearchRequest(
+                requestId = "12345",
+                dishFilter = DishSearchFilter(),
+                debug = DishDebug(
+                    mode = EDishRequestDebugMode.TEST,
+                )
+            )
+            contentType(ContentType.Application.Json)
+            setBody(requestObj)
+        }
+        val responseObj = response.body<DishSearchResponse>()
+        assertEquals(200, response.status.value)
+        assertNotEquals(0, responseObj.dishes?.size)
+        assertEquals(uuidOld, responseObj.dishes?.first()?.id)
+    }
+
     private fun ApplicationTestBuilder.myClient() = createClient {
         install(ContentNegotiation) {
             jackson {
@@ -107,4 +211,3 @@ class DishPostgresApiTest {
     }
 
 }
-*/

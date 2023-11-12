@@ -3,7 +3,7 @@ package ru.sosninanv.qrmenu.app.configs
 import io.ktor.server.config.*
 
 data class PostgresConfig(
-    val url: String = "jdbc:postgresql://localhost:5432/menu",
+    val url: String = "jdbc:postgresql://localhost:5433/menu",
     val user: String = "postgres",
     val password: String = "password",
     val schema: String = "menu",
@@ -16,6 +16,6 @@ data class PostgresConfig(
     )
 
     companion object {
-        const val PATH = "${ConfigPaths.repository}.psql"
+        const val PATH = "menu.repository.psql"
     }
 }

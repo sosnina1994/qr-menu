@@ -3,7 +3,6 @@ package ru.sosninanv.qrmenu.app.plagins
 import DishRepoInMemory
 import io.ktor.server.application.*
 import repo.IDishRepository
-import ru.sosninanv.qrmenu.app.configs.ConfigPaths
 import ru.sosninanv.qrmenu.app.configs.PostgresConfig
 import ru.sosninanv.qrmenu.repo.postgresql.RepoDishSQL
 import ru.sosninanv.qrmenu.repo.postgresql.SqlProperties
@@ -11,7 +10,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 fun Application.getDatabaseConf(type: DbType): IDishRepository {
-    val dbSettingPath = "${ConfigPaths.repository}.${type.confName}"
+    val dbSettingPath = "menu.repository.${type.confName}"
     val dbSetting = environment.config.propertyOrNull(dbSettingPath)?.getString()?.lowercase()
     return when (dbSetting) {
         "inmemory" -> initInMemory()

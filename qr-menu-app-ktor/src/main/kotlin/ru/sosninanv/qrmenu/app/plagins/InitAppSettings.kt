@@ -11,9 +11,8 @@ import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor
 fun Application.initAppSettings(): QrMenuAppSettings {
     val corSettings = QrMenuCorSettings(
         loggerProvider = getLoggerProviderConf(),
-        repoTest = DishRepoInMemory(),
-        repoProd = DishRepoInMemory(),
-        //repoProd = getDatabaseConf(DbType.PROD),
+        repoTest = getDatabaseConf(DbType.TEST),
+        repoProd = getDatabaseConf(DbType.PROD),
         repoStub = DishRepoStub(),
     )
     return QrMenuAppSettings(

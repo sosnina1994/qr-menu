@@ -29,16 +29,6 @@ class DishInMemoryApiTest {
         lock = QrMenuDishLock(uuidOld)
     }
 
-    private val initDishSupply = QrMenuDishStub.prepareResult {
-        id = QrMenuDishId(uuidSup)
-        name = "abc"
-        description = "abc"
-        cost = 0.0
-        type = EQrMenuDishType.DESSERT
-        ownerId = QrMenuUserId("abc-Abc")
-        visibility = EQrMenuVisibility.PUBLIC
-    }
-
     @Test
     fun create() = testApplication {
         val repo = DishRepoInMemory(initObjects = listOf(initDish), randomUuid = { uuidNew })
