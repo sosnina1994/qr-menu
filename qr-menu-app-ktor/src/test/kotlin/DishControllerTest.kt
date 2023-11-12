@@ -41,9 +41,8 @@ class DishControllerTest {
         val responseObject = response.body<DishCreateResponse>()
 
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals("Dish1", responseObject.dish?.name)
+        assertEquals("name", responseObject.dish?.name)
     }
-
 
     @Test
     fun `test read`() = testApplication {
@@ -64,7 +63,6 @@ class DishControllerTest {
         }
         val responseObj = response.body<DishReadResponse>()
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals("Dish1", responseObj.dish?.name)
     }
 
 

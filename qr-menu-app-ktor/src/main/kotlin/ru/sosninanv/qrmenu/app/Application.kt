@@ -22,7 +22,7 @@ import ru.sosninanv.qrmenu.app.plagins.initAppSettings
 import ru.sosninanv.qrmenu.app.v1.v1Dish
 import ru.sosninanv.qrmenu.logging.MpLogWrapperLogback
 
-fun main(args: Array<String>) {
+fun main() {
     embeddedServer(Netty, environment = applicationEngineEnvironment {
         val conf = YamlConfigLoader().load("./application.yaml")
             ?: throw RuntimeException("Cannot read application.yaml")
@@ -76,7 +76,7 @@ fun Application.moduleJvm(appSettings: QrMenuAppSettings = initAppSettings()) {
             call.respondText("OK")
         }
         route("v1") {
-            v1Dish()
+            v1Dish(appSettings)
         }
     }
 }

@@ -1,55 +1,33 @@
 package ru.sosninanv.qrmenu.app.v1
 
-import QrMenuContext
-import fromTransport
 import io.ktor.server.application.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import models.EQrMenuDishType
 import ru.sosninanv.api.v1.models.*
-import toTransportCreate
-import toTransportDelete
-import toTransportRead
-import toTransportSearch
-import toTransportUpdate
+import ru.sosninanv.qrmenu.app.QrMenuAppSettings
+import kotlin.reflect.KClass
 
-//FIXME: Добавить бизнес-логику
-suspend fun ApplicationCall.createDish() {
-    val request = receive<DishCreateRequest>()
-    val context = QrMenuContext()
-    context.fromTransport(request)
-    context.dishResponse = QrMenuDishStub.get()
-    respond(context.toTransportCreate())
-}
 
-suspend fun ApplicationCall.readDish() {
-    val request = receive<DishReadRequest>()
-    val context = QrMenuContext()
-    context.fromTransport(request)
-    context.dishResponse = QrMenuDishStub.get()
-    respond(context.toTransportRead())
-}
+/** CREATE */
 
-suspend fun ApplicationCall.updateDish() {
-    val request = receive<DishUpdateRequest>()
-    val context = QrMenuContext()
-    context.fromTransport(request)
-    context.dishResponse = QrMenuDishStub.get()
-    respond(context.toTransportUpdate())
-}
+private val clCreate: KClass<*> = ApplicationCall::createDish::class
+suspend fun ApplicationCall.createDish(appSettings: QrMenuAppSettings) =
+    process<DishCreateRequest, DishCreateResponse>(appSettings, clCreate, "create")
 
-suspend fun ApplicationCall.deleteDish() {
-    val request = receive<DishDeleteRequest>()
-    val context = QrMenuContext()
-    context.fromTransport(request)
-    context.dishResponse = QrMenuDishStub.get()
-    respond(context.toTransportDelete())
-}
+/** READ */
+private val clRead: KClass<*> = ApplicationCall::readDish::class
+suspend fun ApplicationCall.readDish(appSettings: QrMenuAppSettings) =
+    process<DishReadRequest, DishReadResponse>(appSettings, clRead, "read")
 
-suspend fun ApplicationCall.searchDish() {
-    val request = receive<DishSearchRequest>()
-    val context = QrMenuContext()
-    context.fromTransport(request)
-    context.dishesResponse.addAll(QrMenuDishStub.prepareSearchList("name", EQrMenuDishType.DESSERT))
-    respond(context.toTransportSearch())
-}
+/** UPDATE */
+private val clUpdate: KClass<*> = ApplicationCall::updateDish::class
+suspend fun ApplicationCall.updateDish(appSettings: QrMenuAppSettings) =
+    process<DishUpdateRequest, DishUpdateResponse>(appSettings, clUpdate, "update")
+
+/** DELETE */
+private val clDelete: KClass<*> = ApplicationCall::deleteDish::class
+suspend fun ApplicationCall.deleteDish(appSettings: QrMenuAppSettings) =
+    process<DishDeleteRequest, DishDeleteResponse>(appSettings, clDelete, "delete")
+
+/** SEARCH */
+private val clSearch: KClass<*> = ApplicationCall::searchDish::class
+suspend fun ApplicationCall.searchDish(appSettings: QrMenuAppSettings) =
+    process<DishSearchRequest, DishSearchResponse>(appSettings, clSearch, "search")
