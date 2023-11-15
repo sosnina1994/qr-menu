@@ -1,0 +1,17 @@
+ktor:
+  development: true
+  deployment:
+    host: "127.0.0.1"
+    watch:
+      - classes
+      - resources
+
+menu:
+  repository:
+    test: inmemory
+    prod: postgres
+    psql:
+      password: password
+      schema: menu
+      url: "jdbc:postgresql://localhost:5433/menu"
+      user: postgres

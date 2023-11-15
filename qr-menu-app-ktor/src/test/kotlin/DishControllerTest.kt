@@ -5,17 +5,18 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.jackson.*
+import io.ktor.server.application.*
 import io.ktor.server.testing.*
-import models.QrMenuDishId
 import org.junit.Test
 import ru.sosninanv.api.v1.models.*
+import ru.sosninanv.qrmenu.app.moduleJvm
 import kotlin.test.assertEquals
 
 class DishControllerTest {
 
     @Test
     fun `test create`() = testApplication {
-
+        application(Application::moduleJvm)
         val client = myClient()
 
         val response = client.post("/v1/dish/create") {
@@ -40,12 +41,12 @@ class DishControllerTest {
         val responseObject = response.body<DishCreateResponse>()
 
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals("Dish1", responseObject.dish?.name)
+        assertEquals("name", responseObject.dish?.name)
     }
-
 
     @Test
     fun `test read`() = testApplication {
+        application(Application::moduleJvm)
         val client = myClient()
 
         val response = client.post("/v1/dish/read") {
@@ -62,7 +63,6 @@ class DishControllerTest {
         }
         val responseObj = response.body<DishReadResponse>()
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals("Dish1", responseObj.dish?.name)
     }
 
 

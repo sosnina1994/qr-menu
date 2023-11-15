@@ -165,7 +165,7 @@ components:
       allOf:
         - type: object
           properties:
-            dish:
+            id:
               $ref: '#/components/schemas/DishId'
             lock:
               $ref: '#/components/schemas/DishLock'

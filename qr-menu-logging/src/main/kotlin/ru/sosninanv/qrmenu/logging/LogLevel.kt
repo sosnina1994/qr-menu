@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.marketplace.logging.common
+package ru.sosninanv.qrmenu.logging
 
 enum class LogLevel(
     private val levelInt: Int,

@@ -22,6 +22,7 @@ fun validationIdCorrect(command: EQrMenuCommand, processor: QrMenuDishProcessor)
             description = "abc",
             type = EQrMenuDishType.DESSERT,
             visibility = EQrMenuVisibility.PUBLIC,
+            lock = QrMenuDishLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
@@ -41,6 +42,7 @@ fun validationIdTrim(command: EQrMenuCommand, processor: QrMenuDishProcessor) = 
             description = "abc",
             type = EQrMenuDishType.DESSERT,
             visibility = EQrMenuVisibility.PUBLIC,
+            lock = QrMenuDishLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
@@ -60,6 +62,7 @@ fun validationIdEmpty(command: EQrMenuCommand, processor: QrMenuDishProcessor) =
             description = "abc",
             type = EQrMenuDishType.DESSERT,
             visibility = EQrMenuVisibility.PUBLIC,
+            lock = QrMenuDishLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
@@ -82,6 +85,7 @@ fun validationIdFormat(command: EQrMenuCommand, processor: QrMenuDishProcessor) 
             description = "abc",
             type = EQrMenuDishType.DESSERT,
             visibility = EQrMenuVisibility.PUBLIC,
+            lock = QrMenuDishLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)

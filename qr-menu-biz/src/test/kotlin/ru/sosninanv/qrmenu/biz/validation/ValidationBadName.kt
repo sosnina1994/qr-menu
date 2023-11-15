@@ -24,6 +24,7 @@ fun validationNameCorrect(command: EQrMenuCommand, processor: QrMenuDishProcesso
             description = "abc",
             type = EQrMenuDishType.DESSERT,
             visibility = EQrMenuVisibility.PUBLIC,
+            lock = QrMenuDishLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
@@ -44,6 +45,7 @@ fun validationNameTrim(command: EQrMenuCommand, processor: QrMenuDishProcessor) 
             description = "abc",
             type = EQrMenuDishType.DESSERT,
             visibility = EQrMenuVisibility.PUBLIC,
+            lock = QrMenuDishLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
@@ -65,6 +67,7 @@ fun validationNameEmpty(command: EQrMenuCommand, processor: QrMenuDishProcessor)
             description = "abc",
             type = EQrMenuDishType.DESSERT,
             visibility = EQrMenuVisibility.PUBLIC,
+            lock = QrMenuDishLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
@@ -87,6 +90,7 @@ fun validationNameSymbols(command: EQrMenuCommand, processor: QrMenuDishProcesso
             description = "abc",
             type = EQrMenuDishType.DESSERT,
             visibility = EQrMenuVisibility.PUBLIC,
+            lock = QrMenuDishLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)

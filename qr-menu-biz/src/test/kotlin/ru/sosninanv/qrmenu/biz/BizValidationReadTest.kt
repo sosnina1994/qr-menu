@@ -1,5 +1,7 @@
 package ru.sosninanv.qrmenu.biz
 
+import DishRepoStub
+import QrMenuCorSettings
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import models.EQrMenuCommand
 import ru.sosninanv.qrmenu.biz.validation.validationIdCorrect
@@ -12,7 +14,9 @@ import kotlin.test.Test
 class BizValidationReadTest {
 
     private val command = EQrMenuCommand.READ
-    private val processor by lazy { QrMenuDishProcessor() }
+
+    private val settings by lazy { QrMenuCorSettings(repoTest = DishRepoStub()) }
+    private val processor by lazy { QrMenuDishProcessor(settings) }
 
     @Test fun correctId() = validationIdCorrect(command, processor)
     @Test fun trimId() = validationIdTrim(command, processor)

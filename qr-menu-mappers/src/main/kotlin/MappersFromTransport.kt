@@ -43,7 +43,7 @@ fun QrMenuContext.fromTransport(request: DishDeleteRequest) {
     requestId = request.requestId()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
-    dishRequest = request.dish?.dish.toDishWithId()
+    dishRequest = request.dish.toInternal()
 }
 
 fun QrMenuContext.fromTransport(request: DishSearchRequest) {
@@ -57,6 +57,7 @@ fun QrMenuContext.fromTransport(request: DishSearchRequest) {
 
 private fun String?.toDishId() = this?.let { QrMenuDishId(it) } ?: QrMenuDishId.NONE
 
+private fun String?.toDishLock() = this?.let { QrMenuDishLock(it) } ?: QrMenuDishLock.NONE
 private fun String?.toDishWithId() = QrMenuDish(id = this.toDishId())
 
 private fun IRequest?.requestId() = this?.requestId?.let { QrMenuRequestId(it) } ?: QrMenuRequestId.NONE
@@ -101,7 +102,17 @@ private fun DishUpdateObject.toInternal(): QrMenuDish = QrMenuDish(
     description = this.description ?: "",
     type = this.dishType.fromTransport(),
     visibility = this.visibility.fromTransport(),
+    lock = this.lock.toDishLock(),
 )
+
+private fun DishDeleteObject?.toInternal(): QrMenuDish = if (this != null) {
+    QrMenuDish(
+        id = id.toDishId(),
+        lock = lock.toDishLock(),
+    )
+} else {
+    QrMenuDish()
+}
 
 private fun DishSearchFilter?.toInternal(): QrMenuDishFilter = QrMenuDishFilter(
     searchString = this?.searchString ?: ""

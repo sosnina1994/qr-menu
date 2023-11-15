@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.marketplace.logging.common
+package ru.sosninanv.qrmenu.logging
 
 import ru.sosninanv.qrmenu.logging.IMpLogWrapper
 import kotlin.reflect.KClass
