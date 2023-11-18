@@ -1,4 +1,5 @@
 import SqlTestCompanion.repoUnderTestContainer
+import auth.addAuth
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.client.call.*
@@ -13,6 +14,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 import ru.sosninanv.api.v1.models.*
 import ru.sosninanv.qrmenu.app.QrMenuAppSettings
+import ru.sosninanv.qrmenu.app.configs.AuthConfig
 import ru.sosninanv.qrmenu.app.moduleJvm
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -72,6 +74,7 @@ class DishPostgresApiTest {
                 )
             )
             contentType(ContentType.Application.Json)
+            addAuth(config = AuthConfig.TEST)
             setBody(requestObj)
         }
         val responseObj = response.body<DishCreateResponse>()
@@ -101,6 +104,7 @@ class DishPostgresApiTest {
                 )
             )
             contentType(ContentType.Application.Json)
+            addAuth(config = AuthConfig.TEST)
             setBody(requestObj)
         }
         val responseObj = response.body<DishReadResponse>()
@@ -135,6 +139,7 @@ class DishPostgresApiTest {
                 )
             )
             contentType(ContentType.Application.Json)
+            addAuth(config = AuthConfig.TEST)
             setBody(requestObj)
         }
         val responseObj = response.body<DishUpdateResponse>()
@@ -167,6 +172,7 @@ class DishPostgresApiTest {
                 )
             )
             contentType(ContentType.Application.Json)
+            addAuth(config = AuthConfig.TEST)
             setBody(requestObj)
         }
         val responseObj = response.body<DishDeleteResponse>()
@@ -191,6 +197,7 @@ class DishPostgresApiTest {
                 )
             )
             contentType(ContentType.Application.Json)
+            addAuth(config = AuthConfig.TEST)
             setBody(requestObj)
         }
         val responseObj = response.body<DishSearchResponse>()

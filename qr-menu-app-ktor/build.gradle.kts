@@ -50,8 +50,14 @@ dependencies {
     implementation(project(":qr-menu-common"))
     implementation(project(":qr-menu-stubs"))
     implementation(project(":qr-menu-biz"))
+    implementation(project(":qr-menu-auth"))
     implementation(project(":qr-menu-repo-in-memory"))
     implementation(project(":qr-menu-repo-postgresql"))
+    implementation("io.ktor:ktor-server-auth-jvm:2.2.4")
+    implementation("io.ktor:ktor-server-core-jvm:2.2.4")
+    implementation("io.ktor:ktor-client-core-jvm:2.2.4")
+    implementation("io.ktor:ktor-client-apache-jvm:2.2.4")
+    implementation("io.ktor:ktor-server-auth-jwt-jvm:2.2.4")
     testImplementation(project(":qr-menu-repository-tests"))
     implementation(project(":qr-menu-repository-stubs"))
 
@@ -62,6 +68,9 @@ dependencies {
     implementation("io.ktor:ktor-server-call-logging-jvm:2.2.4")
     implementation("io.ktor:ktor-server-partial-content-jvm:2.2.4")
     implementation("io.ktor:ktor-server-conditional-headers-jvm:2.2.4")
+
+    implementation(ktor("auth")) // "io.ktor:ktor-auth:$ktorVersion"
+    implementation(ktor("auth-jwt")) // "io.ktor:ktor-auth-jwt:$ktorVersion"
 
 }
 

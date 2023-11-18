@@ -1,3 +1,5 @@
+import auth.addAuth
+import auth.testSettings
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.client.call.*
@@ -7,8 +9,11 @@ import io.ktor.http.*
 import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
 import io.ktor.server.testing.*
+import models.*
 import org.junit.Test
 import ru.sosninanv.api.v1.models.*
+import ru.sosninanv.qrmenu.app.QrMenuAppSettings
+import ru.sosninanv.qrmenu.app.configs.AuthConfig
 import ru.sosninanv.qrmenu.app.moduleJvm
 import kotlin.test.assertEquals
 
@@ -34,11 +39,12 @@ class DishControllerTest {
                     visibility = EDishVisibility.PUBLIC,
                 ),
             )
-
             contentType(ContentType.Application.Json)
+            addAuth(config = AuthConfig.TEST)
             setBody(requestObj)
         }
         val responseObject = response.body<DishCreateResponse>()
+        println(responseObject)
 
         assertEquals(HttpStatusCode.OK, response.status)
         assertEquals("name", responseObject.dish?.name)
@@ -59,6 +65,7 @@ class DishControllerTest {
                 ),
             )
             contentType(ContentType.Application.Json)
+            addAuth(config = AuthConfig.TEST)
             setBody(requestObj)
         }
         val responseObj = response.body<DishReadResponse>()

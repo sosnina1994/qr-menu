@@ -1,3 +1,4 @@
+import auth.addAuth
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.client.call.*
@@ -10,6 +11,7 @@ import models.*
 import org.junit.Test
 import ru.sosninanv.api.v1.models.*
 import ru.sosninanv.qrmenu.app.QrMenuAppSettings
+import ru.sosninanv.qrmenu.app.configs.AuthConfig
 import ru.sosninanv.qrmenu.app.moduleJvm
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -17,7 +19,6 @@ import kotlin.test.assertNotEquals
 class DishInMemoryApiTest {
     private val uuidOld = "10000000-0000-0000-0000-000000000001"
     private val uuidNew = "10000000-0000-0000-0000-000000000002"
-    private val uuidSup = "10000000-0000-0000-0000-000000000003"
     private val initDish = QrMenuDishStub.prepareResult {
         id = QrMenuDishId(uuidOld)
         name = "abc"
@@ -55,6 +56,7 @@ class DishInMemoryApiTest {
                 )
             )
             contentType(ContentType.Application.Json)
+            addAuth(config = AuthConfig.TEST)
             setBody(requestObj)
         }
         val responseObj = response.body<DishCreateResponse>()
@@ -84,6 +86,7 @@ class DishInMemoryApiTest {
                 )
             )
             contentType(ContentType.Application.Json)
+            addAuth(config = AuthConfig.TEST)
             setBody(requestObj)
         }
         val responseObj = response.body<DishReadResponse>()
@@ -118,6 +121,7 @@ class DishInMemoryApiTest {
                 )
             )
             contentType(ContentType.Application.Json)
+            addAuth(config = AuthConfig.TEST)
             setBody(requestObj)
         }
         val responseObj = response.body<DishUpdateResponse>()
@@ -150,6 +154,7 @@ class DishInMemoryApiTest {
                 )
             )
             contentType(ContentType.Application.Json)
+            addAuth(config = AuthConfig.TEST)
             setBody(requestObj)
         }
         val responseObj = response.body<DishDeleteResponse>()
@@ -174,6 +179,7 @@ class DishInMemoryApiTest {
                 )
             )
             contentType(ContentType.Application.Json)
+            addAuth(config = AuthConfig.TEST)
             setBody(requestObj)
         }
         val responseObj = response.body<DishSearchResponse>()
