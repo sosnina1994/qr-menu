@@ -1,5 +1,7 @@
 package models
 
+import permissions.QrMenuPrincipalRelations
+
 data class QrMenuDish(
     var id: QrMenuDishId = QrMenuDishId.NONE,
     var name: String = "",
@@ -9,6 +11,7 @@ data class QrMenuDish(
     var ownerId: QrMenuUserId = QrMenuUserId.NONE,
     var visibility: EQrMenuVisibility = EQrMenuVisibility.NONE,
     var lock: QrMenuDishLock = QrMenuDishLock.NONE,
+    var principalRelations: Set<QrMenuPrincipalRelations> = emptySet(),
     val permissions: MutableSet<EQrMenuPermissionClient> = mutableSetOf()
 ) {
     fun deepCopy(): QrMenuDish = copy(

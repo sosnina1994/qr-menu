@@ -1,7 +1,8 @@
 package models
 
 enum class EQrMenuPermissionClient {
-    READ,
+    READ_ALL,
+    READ_PUBLIC,
     UPDATE,
     DELETE,
     MAKE_VISIBLE_PUBLIC,

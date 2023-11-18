@@ -12,7 +12,7 @@ object QrMenuDishStubObj {
             ownerId = QrMenuUserId("user-1"),
             visibility = EQrMenuVisibility.PUBLIC,
             permissions = mutableSetOf(
-                EQrMenuPermissionClient.READ,
+                EQrMenuPermissionClient.READ_ALL,
                 EQrMenuPermissionClient.UPDATE,
                 EQrMenuPermissionClient.DELETE,
                 EQrMenuPermissionClient.MAKE_VISIBLE_PUBLIC,

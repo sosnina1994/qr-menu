@@ -69,7 +69,7 @@ private fun QrMenuDish.toTransportDish(): DishResponseObject = DishResponseObjec
 
 private fun EQrMenuVisibility.toTransportDish(): EDishVisibility? = when (this) {
     EQrMenuVisibility.PUBLIC -> EDishVisibility.PUBLIC
-    EQrMenuVisibility.OWNER -> EDishVisibility.OWNER_ONLY
+    EQrMenuVisibility.ALL -> EDishVisibility.OWNER_ONLY
     EQrMenuVisibility.NONE -> null
 }
 
@@ -88,12 +88,12 @@ private fun Set<EQrMenuPermissionClient>.toTransportDish(): Set<DishPermissions>
 
 
 private fun EQrMenuPermissionClient.toTransportDish() = when (this) {
-    EQrMenuPermissionClient.READ -> DishPermissions.READ
+    EQrMenuPermissionClient.READ_ALL -> DishPermissions.READ
+    EQrMenuPermissionClient.READ_PUBLIC -> DishPermissions.READ
     EQrMenuPermissionClient.UPDATE -> DishPermissions.UPDATE
     EQrMenuPermissionClient.MAKE_VISIBLE_OWNER -> DishPermissions.MAKE_VISIBLE_OWN
     EQrMenuPermissionClient.MAKE_VISIBLE_PUBLIC -> DishPermissions.MAKE_VISIBLE_PUBLIC
-    EQrMenuPermissionClient.DELETE -> DishPermissions.DELETE
-}
+    EQrMenuPermissionClient.DELETE -> DishPermissions.DELETE }
 
 
 /**
