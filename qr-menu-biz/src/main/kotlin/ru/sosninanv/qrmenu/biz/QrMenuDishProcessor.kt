@@ -10,6 +10,9 @@ import ru.sosninanv.qrmenu.biz.general.initRepo
 import ru.sosninanv.qrmenu.biz.general.prepareResult
 import ru.sosninanv.qrmenu.biz.groups.operation
 import ru.sosninanv.qrmenu.biz.groups.stubs
+import ru.sosninanv.qrmenu.biz.permission.accessValidation
+import ru.sosninanv.qrmenu.biz.permission.chainPermissions
+import ru.sosninanv.qrmenu.biz.permission.frontPermissions
 import ru.sosninanv.qrmenu.biz.repo.*
 import ru.sosninanv.qrmenu.biz.validation.*
 import ru.sosninanv.qrmenu.biz.workers.*
@@ -49,11 +52,14 @@ class QrMenuDishProcessor(
                     validateDescriptionHasContent("Проверка символов")
                     finishDishValidation("Завершение проверок")
                 }
+                chainPermissions("Вычисление разрешений для пользователя")
                 chain {
                     title = "Логика сохранения"
                     repoPrepareCreate("Подготовка объекта для сохранения")
+                    accessValidation("Вычисление прав доступа")
                     repoCreate("Создание объекта в БД")
                 }
+                frontPermissions("Вычисление пользовательских разрешений для фронтенда")
                 prepareResult("Подготовка ответа")
 
             }

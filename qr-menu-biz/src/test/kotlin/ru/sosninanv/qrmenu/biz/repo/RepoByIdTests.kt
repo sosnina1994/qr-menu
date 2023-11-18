@@ -8,6 +8,7 @@ import kotlinx.coroutines.test.runTest
 import models.*
 import repo.DbDishResponse
 import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor
+import ru.sosninanv.qrmenu.biz.addTestPrincipal
 import kotlin.test.assertEquals
 
 private val initDish = QrMenuDish(
@@ -49,6 +50,9 @@ fun repoNotFoundTest(command: EQrMenuCommand) = runTest {
             lock = QrMenuDishLock("123-234-abc-ABC"),
         ),
     )
+
+    ctx.addTestPrincipal()
+
     processor.exec(ctx)
     assertEquals(EQrMenuState.FAILING, ctx.state)
     assertEquals(QrMenuDish(), ctx.dishResponse)

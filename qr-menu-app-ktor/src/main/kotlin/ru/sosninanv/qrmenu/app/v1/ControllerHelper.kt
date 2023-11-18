@@ -4,6 +4,8 @@ import QrMenuContext
 import fromTransport
 import helpers.asQrMenuError
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import kotlinx.datetime.Clock
@@ -11,6 +13,7 @@ import models.EQrMenuState
 import ru.sosninanv.api.v1.models.IRequest
 import ru.sosninanv.api.v1.models.IResponse
 import ru.sosninanv.qrmenu.app.QrMenuAppSettings
+import ru.sosninanv.qrmenu.app.base.toModel
 import toTransport
 import kotlin.reflect.KClass
 
@@ -19,7 +22,10 @@ suspend inline fun <reified Q : IRequest, @Suppress("unused") reified R : IRespo
     clazz: KClass<*>,
     logId: String,
 ) = appSettings.controllerHelper(
-    { fromTransport(receive<Q>()) },
+    {
+        principal = this@process.request.call.principal<JWTPrincipal>().toModel()
+        fromTransport(receive<Q>())
+    },
     { respond(toTransport()) },
     clazz,
     logId,

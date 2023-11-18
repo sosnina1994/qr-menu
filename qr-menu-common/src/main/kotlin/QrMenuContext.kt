@@ -1,5 +1,7 @@
 import kotlinx.datetime.Instant
 import models.*
+import permissions.QrMenuPrincipalModel
+import permissions.QrMenuUserPermissions
 import repo.IDishRepository
 import stubs.EQrMenuStubs
 
@@ -32,5 +34,10 @@ data class QrMenuContext(
 
     /** Готовый результат валидации */
     var dishValidated: QrMenuDish = QrMenuDish(),
-    var dishFilterValidated: QrMenuDishFilter = QrMenuDishFilter()
+    var dishFilterValidated: QrMenuDishFilter = QrMenuDishFilter(),
+
+    /** Авторизация */
+    var principal: QrMenuPrincipalModel = QrMenuPrincipalModel.NONE,
+    var permissionsChain: MutableSet<QrMenuUserPermissions> = mutableSetOf(),
+    var permitted: Boolean = false
 )

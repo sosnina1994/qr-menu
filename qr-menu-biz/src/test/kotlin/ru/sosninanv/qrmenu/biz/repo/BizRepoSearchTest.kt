@@ -8,6 +8,7 @@ import kotlinx.coroutines.test.runTest
 import models.*
 import repo.DbDishesResponse
 import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor
+import ru.sosninanv.qrmenu.biz.addTestPrincipal
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -44,6 +45,9 @@ class BizRepoSearchTest {
                 dishType = EQrMenuDishType.MAIN
             ),
         )
+
+        ctx.addTestPrincipal(userId)
+
         processor.exec(ctx)
         assertEquals(EQrMenuState.FINISHING, ctx.state)
         assertEquals(1, ctx.dishesResponse.size)

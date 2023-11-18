@@ -8,6 +8,7 @@ import kotlinx.coroutines.test.runTest
 import models.*
 import repo.DbDishResponse
 import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor
+import ru.sosninanv.qrmenu.biz.addTestPrincipal
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -49,6 +50,7 @@ class BizRepoReadTest {
             ),
         )
 
+        ctx.addTestPrincipal(userId)
 
         processor.exec(ctx)
         assertEquals(EQrMenuState.FINISHING, ctx.state)

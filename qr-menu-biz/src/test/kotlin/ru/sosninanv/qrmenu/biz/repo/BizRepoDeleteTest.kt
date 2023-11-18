@@ -8,6 +8,7 @@ import kotlinx.coroutines.test.runTest
 import models.*
 import repo.DbDishResponse
 import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor
+import ru.sosninanv.qrmenu.biz.addTestPrincipal
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -53,6 +54,9 @@ class BizRepoDeleteTest {
             workMode = EQrMenuWorkMode.TEST,
             dishRequest = dishToDelete,
         )
+
+        ctx.addTestPrincipal(userId)
+
         processor.exec(ctx)
         assertEquals(EQrMenuState.FINISHING, ctx.state)
         assertTrue { ctx.errors.isEmpty() }

@@ -2,6 +2,6 @@ package models
 
 enum class EQrMenuVisibility {
     NONE,
-    OWNER,
+    ALL,
     PUBLIC,
 }

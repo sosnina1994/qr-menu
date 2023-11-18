@@ -6,6 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import models.*
 import ru.sosninanv.qrmenu.biz.QrMenuDishProcessor
+import ru.sosninanv.qrmenu.biz.addTestPrincipal
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -27,6 +28,9 @@ fun validationNameCorrect(command: EQrMenuCommand, processor: QrMenuDishProcesso
             lock = QrMenuDishLock("123-234-abc-ABC"),
         ),
     )
+
+    ctx.addTestPrincipal()
+
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(EQrMenuState.FAILING, ctx.state)
@@ -48,6 +52,9 @@ fun validationNameTrim(command: EQrMenuCommand, processor: QrMenuDishProcessor) 
             lock = QrMenuDishLock("123-234-abc-ABC"),
         ),
     )
+
+    ctx.addTestPrincipal()
+
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(EQrMenuState.FAILING, ctx.state)

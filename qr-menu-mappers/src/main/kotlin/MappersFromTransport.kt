@@ -120,7 +120,7 @@ private fun DishSearchFilter?.toInternal(): QrMenuDishFilter = QrMenuDishFilter(
 
 private fun EDishVisibility?.fromTransport(): EQrMenuVisibility = when (this) {
     EDishVisibility.PUBLIC -> EQrMenuVisibility.PUBLIC
-    EDishVisibility.OWNER_ONLY -> EQrMenuVisibility.OWNER
+    EDishVisibility.OWNER_ONLY -> EQrMenuVisibility.ALL
     null -> EQrMenuVisibility.NONE
 }
 

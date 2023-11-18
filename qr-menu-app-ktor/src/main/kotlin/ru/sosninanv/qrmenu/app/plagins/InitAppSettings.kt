@@ -19,5 +19,6 @@ fun Application.initAppSettings(): QrMenuAppSettings {
         appUrls = environment.config.propertyOrNull("ktor.urls")?.getList() ?: emptyList(),
         corSettings = corSettings,
         processor = QrMenuDishProcessor(corSettings),
+        auth = initAppAuth(),
     )
 }
