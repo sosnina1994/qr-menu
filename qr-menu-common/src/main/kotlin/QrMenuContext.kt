@@ -38,6 +38,6 @@ data class QrMenuContext(
 
     /** Авторизация */
     var principal: QrMenuPrincipalModel = QrMenuPrincipalModel.NONE,
-    val permissionsChain: MutableSet<QrMenuUserPermissions> = mutableSetOf(),
+    var permissionsChain: MutableSet<QrMenuUserPermissions> = mutableSetOf(),
     var permitted: Boolean = false
 )

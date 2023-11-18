@@ -17,8 +17,24 @@ private val groupPermissionsAdmits = mapOf(
         QrMenuUserPermissions.READ_PUBLIC,
         QrMenuUserPermissions.SEARCH_PUBLIC,
     ),
-    QrMenuUserGroups.ADMIN to setOf(),
-    QrMenuUserGroups.TEST to setOf(),
+    QrMenuUserGroups.ADMIN to setOf(
+        QrMenuUserPermissions.CREATE,
+        QrMenuUserPermissions.READ_ALL,
+        QrMenuUserPermissions.READ_PUBLIC,
+        QrMenuUserPermissions.UPDATE,
+        QrMenuUserPermissions.DELETE,
+        QrMenuUserPermissions.SEARCH_ALL,
+        QrMenuUserPermissions.SEARCH_PUBLIC,
+    ),
+    QrMenuUserGroups.TEST to setOf(
+        QrMenuUserPermissions.CREATE,
+        QrMenuUserPermissions.READ_ALL,
+        QrMenuUserPermissions.READ_PUBLIC,
+        QrMenuUserPermissions.UPDATE,
+        QrMenuUserPermissions.DELETE,
+        QrMenuUserPermissions.SEARCH_ALL,
+        QrMenuUserPermissions.SEARCH_PUBLIC,
+    ),
 )
 
 private val groupPermissionsDenys = mapOf(
