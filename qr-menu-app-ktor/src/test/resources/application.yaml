@@ -1,7 +1,4 @@
 ktor:
-  application:
-    modules:
-      - ru.sosninanv.qrmenu.app.ApplicationKt.moduleJvm
   development: true
   deployment:
     host: "127.0.0.1"
@@ -19,3 +16,4 @@ menu:
       schema: menu
       url: "jdbc:postgresql://localhost:5433/menu"
       user: postgres
+
