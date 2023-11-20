@@ -38,8 +38,8 @@ dependencies {
 
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
-    implementation(kotlin("test-junit"))
-    implementation(ktor("test-host")) // "io.ktor:ktor-server-test-host:$ktorVersion"
+    testImplementation(kotlin("test-junit"))
+    testImplementation(ktor("test-host")) // "io.ktor:ktor-server-test-host:$ktorVersion"
     implementation(ktor("content-negotiation", prefix = "client-"))
     implementation("com.benasher44:uuid:$kmpUUIDVersion")
 
