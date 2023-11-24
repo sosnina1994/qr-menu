@@ -5,18 +5,22 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.jackson.*
-import io.ktor.server.application.*
 import io.ktor.server.testing.*
 import org.junit.Test
 import ru.sosninanv.api.v1.models.*
+import ru.sosninanv.qrmenu.app.QrMenuAppSettings
 import ru.sosninanv.qrmenu.app.moduleJvm
 import kotlin.test.assertEquals
 
 class DishControllerTest {
+    private val uuidOld = "10000000-0000-0000-0000-000000000001"
 
     @Test
     fun `test create`() = testApplication {
-        application(Application::moduleJvm)
+        val repo = DishRepoInMemory()
+        application {
+            moduleJvm(QrMenuAppSettings(corSettings = QrMenuCorSettings(repoTest = repo)))
+        }
         val client = myClient()
 
         val response = client.post("/v1/dish/create") {
@@ -46,7 +50,10 @@ class DishControllerTest {
 
     @Test
     fun `test read`() = testApplication {
-        application(Application::moduleJvm)
+        val repo = DishRepoInMemory()
+        application {
+            moduleJvm(QrMenuAppSettings(corSettings = QrMenuCorSettings(repoTest = repo)))
+        }
         val client = myClient()
 
         val response = client.post("/v1/dish/read") {
@@ -61,7 +68,6 @@ class DishControllerTest {
             contentType(ContentType.Application.Json)
             setBody(requestObj)
         }
-        val responseObj = response.body<DishReadResponse>()
         assertEquals(HttpStatusCode.OK, response.status)
     }
 
